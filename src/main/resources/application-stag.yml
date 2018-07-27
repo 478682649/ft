@@ -1,0 +1,46 @@
+com:
+  guazi:
+    constant: stag-xuting
+
+server:
+  port: 80
+
+druid:
+  consign:
+    master:
+      url: jdbc:mysql://127.0.0.1:3306/stock
+      username: root
+      password: naodian12300
+      minIdle: 10
+      initialSize: 10
+      maxActive: 20
+    slave1:
+      url: jdbc:mysql://127.0.0.1:3306/stock
+      username: root
+      password: naodian12300
+      minIdle: 10
+      initialSize: 10
+      maxActive: 20
+    slave2:
+      url: jdbc:mysql://127.0.0.1:3306/stock
+      username: root
+      password: naodian12300
+      minIdle: 10
+      initialSize: 10
+      maxActive: 20
+
+redis:
+  business:
+    hostName: 127.0.0.1
+    port: 6379
+    password:
+    database: 0
+    minIdle: 50
+    maxIdle: 50
+    maxTotal: 100
+
+cookieDomain: guazi.com
+
+logging:
+  config: classpath:log-dev.xml
+

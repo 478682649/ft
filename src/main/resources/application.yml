@@ -1,0 +1,19 @@
+#动态选择配置文件
+spring:
+  profiles:
+    active: @mvn.active@
+  http:
+    encoding:
+      enabled: true
+      charset: utf-8
+      force: true
+  thymeleaf:
+    mode: HTML
+    cache: false
+
+debug: false
+
+management:
+  health:
+    defaults:
+      enabled: false
