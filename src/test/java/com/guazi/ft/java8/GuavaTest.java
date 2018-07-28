@@ -58,4 +58,9 @@ public class GuavaTest {
         List<List<String>> partitions = Lists.partition(new ArrayList<>(chars), 3);
         System.out.println(JsonUtil.object2Json(partitions));
     }
+
+    @Test
+    public void assertTest() {
+        org.springframework.util.Assert.isTrue(true, "参数必须为true");
+    }
 }
