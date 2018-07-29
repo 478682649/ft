@@ -66,10 +66,13 @@ public class BasicTest {
 
     @Test
     public void cache() {
+        Runtime runtime = Runtime.getRuntime();
         com.sun.management.OperatingSystemMXBean osmb = (com.sun.management.OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
 
         // CPU核数
         System.out.println(osmb.getAvailableProcessors());
+        System.out.println(runtime.availableProcessors());
+
         // 系统版本
         System.out.println(osmb.getName());
 
