@@ -1,5 +1,8 @@
 package com.guazi.ft.redis;
 
+import org.springframework.data.redis.connection.RedisPassword;
+import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
+import org.springframework.data.redis.connection.jedis.JedisClientConfiguration;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import redis.clients.jedis.JedisPoolConfig;
 
@@ -64,7 +67,6 @@ public class RedisUtil {
      * @param database        数据库
      * @return JedisConnectionFactory对象
      */
-    @SuppressWarnings("deprecation")
     public static JedisConnectionFactory getJedisConnectionFactory(
             JedisPoolConfig jedisPoolConfig,
             String hostName,
@@ -72,14 +74,14 @@ public class RedisUtil {
             String password,
             int database
     ) {
-        JedisConnectionFactory jedisConnectionFactory = new JedisConnectionFactory();
-        jedisConnectionFactory.setPoolConfig(jedisPoolConfig);
-        jedisConnectionFactory.setUsePool(true);
-        jedisConnectionFactory.setHostName(hostName);
-        jedisConnectionFactory.setPort(port);
-        jedisConnectionFactory.setPassword(password);
-        jedisConnectionFactory.setDatabase(database);
+        RedisStandaloneConfiguration redisStandaloneConfiguration = new RedisStandaloneConfiguration(hostName, port);
+        redisStandaloneConfiguration.setDatabase(database);
+        redisStandaloneConfiguration.setPassword(RedisPassword.of(password));
 
-        return jedisConnectionFactory;
+        JedisClientConfiguration.DefaultJedisClientConfigurationBuilder defaultJedisClientConfigurationBuilder = (JedisClientConfiguration.DefaultJedisClientConfigurationBuilder) JedisClientConfiguration.builder();
+        defaultJedisClientConfigurationBuilder.usePooling();
+        defaultJedisClientConfigurationBuilder.poolConfig(jedisPoolConfig);
+
+        return new JedisConnectionFactory(redisStandaloneConfiguration, defaultJedisClientConfigurationBuilder.build());
     }
 }
