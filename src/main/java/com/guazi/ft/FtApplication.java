@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.io.ByteArrayResource;
@@ -40,8 +41,8 @@ import java.util.*;
  *
  * @author shichunyang
  */
-@SpringBootApplication
-@EnableTransactionManagement
+@SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
+@EnableTransactionManagement(proxyTargetClass = true)
 @RestController
 @Slf4j
 @EnableConfigurationProperties({PropertiesConstants.class})
