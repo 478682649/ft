@@ -8,6 +8,7 @@ import com.guazi.ft.rest.RestResult;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.MDC;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -41,6 +42,9 @@ public class ControllerExceptionHandler {
         if (e instanceof FtException) {
             log.error("ip==>{}, url==>{}, args==>{}, custom exception==>{}", ip, request.getRequestURL(), paramStr, e.getMessage());
             restResult = new RestResult<>(((FtException) e).getCode(), e.getMessage(), null);
+        } else if (e instanceof MissingServletRequestParameterException) {
+            MissingServletRequestParameterException missingServletRequestParameterException = (MissingServletRequestParameterException) e;
+            restResult = new RestResult<>(RestResult.ERROR_CODE, "参数:" + missingServletRequestParameterException.getParameterName() + "必传, 参数类型:" + missingServletRequestParameterException.getParameterType(), null);
         } else {
             log.error("ip==>{}, url==>{}, args==>{}, exception==>{}", ip, request.getRequestURL(), paramStr, JsonUtil.object2Json(e), e);
             restResult = new RestResult<>(RestResult.ERROR_CODE, e.getMessage(), null);
