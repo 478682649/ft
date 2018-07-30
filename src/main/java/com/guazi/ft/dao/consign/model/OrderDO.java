@@ -1,5 +1,6 @@
 package com.guazi.ft.dao.consign.model;
 
+import com.guazi.ft.constant.OrderTypeEnum;
 import lombok.Data;
 
 import java.util.Date;
@@ -21,7 +22,7 @@ public class OrderDO {
      */
     private Long operator;
     /**
-     * 订单状态
+     * 订单状态{@link OrderTypeEnum}
      */
     private Short status;
     /**
