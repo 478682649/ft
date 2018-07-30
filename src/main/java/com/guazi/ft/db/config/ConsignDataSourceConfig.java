@@ -9,6 +9,7 @@ import com.guazi.ft.db.DynamicDataSource;
 import com.guazi.ft.db.config.consign.ConsignDataSourceMaster;
 import com.guazi.ft.db.config.consign.ConsignDataSourceSlave1;
 import com.guazi.ft.db.config.consign.ConsignDataSourceSlave2;
+import org.apache.ibatis.session.SqlSessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -76,8 +77,9 @@ public class ConsignDataSourceConfig {
     }
 
     @Bean("consignTransactionManager")
-    public PlatformTransactionManager transactionManager(@Qualifier("consignDataSource") DataSource dataSource) {
-        return new DataSourceTransactionManager(dataSource);
+    public PlatformTransactionManager transactionManager(@Qualifier("consignDataSource") DataSource dataSource, @Qualifier("consignSqlSessionFactory") SqlSessionFactory consignSqlSessionFactory) {
+        System.out.println(consignSqlSessionFactory.getConfiguration().getEnvironment().getDataSource() == dataSource);
+        return new FtDataSourceTransactionManager(dataSource);
     }
 
     @Bean("consignJdbcTemplate")
