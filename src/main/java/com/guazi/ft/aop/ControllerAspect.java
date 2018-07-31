@@ -157,7 +157,7 @@ public class ControllerAspect {
         }
     }
 
-    public void init(HttpServletRequest request) {
+    private void init(HttpServletRequest request) {
         String token = LoginUtil.getToken(request);
         if (!StringUtil.isNull(token)) {
             UserDO userDO = LoginUtil.getLoginUser(request);

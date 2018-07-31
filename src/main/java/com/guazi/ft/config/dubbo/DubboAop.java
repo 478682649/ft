@@ -18,7 +18,7 @@ import org.slf4j.MDC;
 @Slf4j
 public class DubboAop {
 
-    @Pointcut("execution(* com.guazi.ft.dubbo.service.impl.*.*(..))")
+    @Pointcut("execution(* com.guazi..dubbo.service.impl.*.*(..))")
     public void pointCut() {
     }
 
