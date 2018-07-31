@@ -6,8 +6,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.*;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
-import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Method;
 
@@ -16,9 +16,8 @@ import java.lang.reflect.Method;
  *
  * @author shichunyang
  */
+@Order(Ordered.HIGHEST_PRECEDENCE)
 @Aspect
-@Order(-500)
-@Component
 @Slf4j
 public class DataSourceAspect {
 
