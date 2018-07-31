@@ -2,7 +2,7 @@ package com.guazi.ft.config.kafka;
 
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.AppenderBase;
-import com.guazi.ft.aop.LogAspect;
+import com.guazi.ft.aop.ControllerAspect;
 import com.guazi.ft.common.SpringContextUtil;
 import com.guazi.ft.config.model.LogDO;
 import com.guazi.ft.dao.consign.LogMapper;
@@ -28,8 +28,8 @@ public class KafkaAppender extends AppenderBase<ILoggingEvent> {
     @Override
     public void append(ILoggingEvent event) {
 
-        String requestId = MDC.get(LogAspect.REQUEST_ID);
-        String userName = MDC.get(LogAspect.USER_NAME);
+        String requestId = MDC.get(ControllerAspect.REQUEST_ID);
+        String userName = MDC.get(ControllerAspect.USER_NAME);
 
         LogDO log = new LogDO();
         log.setTime(event.getTimeStamp());
