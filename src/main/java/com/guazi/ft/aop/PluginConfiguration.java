@@ -29,16 +29,6 @@ public class PluginConfiguration {
     }
 
     /**
-     * 日志插件
-     */
-    @Bean
-    @ConditionalOnMissingBean(LogAspect.class)
-    public LogAspect logAspect() {
-        log.info("插件初始化==>LogAspect");
-        return new LogAspect();
-    }
-
-    /**
      * 数据源切换插件
      */
     @Bean
@@ -66,5 +56,15 @@ public class PluginConfiguration {
     public DubboAop dubboAop() {
         log.info("插件初始化==>DubboAop");
         return new DubboAop();
+    }
+
+    /**
+     * 异常处理插件
+     */
+    @Bean
+    @ConditionalOnMissingBean(ControllerAspect.class)
+    public ControllerAspect controllerAspect() {
+        log.info("插件初始化==>ControllerAspect");
+        return new ControllerAspect();
     }
 }

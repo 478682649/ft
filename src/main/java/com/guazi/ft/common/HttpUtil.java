@@ -1,6 +1,6 @@
 package com.guazi.ft.common;
 
-import com.guazi.ft.aop.LogAspect;
+import com.guazi.ft.aop.ControllerAspect;
 import com.guazi.ft.exception.FtException;
 import com.guazi.ft.rest.RestResult;
 import lombok.extern.slf4j.Slf4j;
@@ -10,7 +10,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.net.*;
-import java.util.*;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Http 工具类
@@ -161,7 +164,7 @@ public class HttpUtil {
             connection.setRequestProperty("Connection", "keep-alive");
             connection.setRequestProperty("Accept", "*/*");
             connection.setRequestProperty("Content-Type", contentType);
-            connection.setRequestProperty(LogAspect.REQUEST_ID, LogAspect.REQUEST_HEADER.get());
+            connection.setRequestProperty(ControllerAspect.REQUEST_ID, ControllerAspect.REQUEST_HEADER.get());
 
             connection.setDoOutput(true);
             connection.setDoInput(true);
@@ -313,7 +316,7 @@ public class HttpUtil {
             connection.setRequestProperty("Accept", "*/*");
 
             connection.setRequestProperty("Content-Type", "multipart/form-data; boundary=" + boundary);
-            connection.setRequestProperty(LogAspect.REQUEST_ID, LogAspect.REQUEST_HEADER.get());
+            connection.setRequestProperty(ControllerAspect.REQUEST_ID, ControllerAspect.REQUEST_HEADER.get());
 
             connection.setDoOutput(true);
             connection.setDoInput(true);
