@@ -8,7 +8,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.*;
 import org.slf4j.MDC;
-import org.springframework.stereotype.Component;
 
 import static com.guazi.ft.aop.LogAspect.REQUEST_ID;
 
@@ -17,7 +16,6 @@ import static com.guazi.ft.aop.LogAspect.REQUEST_ID;
  *
  * @author shichunyang
  */
-@Component
 @Aspect
 @Slf4j
 public class DubboAop {
