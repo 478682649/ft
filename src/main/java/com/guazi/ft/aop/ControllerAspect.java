@@ -83,10 +83,10 @@ public class ControllerAspect {
                 result = JsonUtil.object2Json(obj);
             }
 
-            String paramStr = CommonUtil.getParamsFromRequest(request);
+            String params = JsonUtil.object2Json(joinPoint.getArgs());
             String ip = HttpUtil.getIpAddress(request);
             // 记录耗时
-            log.info("response ip==>{}, url==>{}, args==>{}, cost==>{}ms, result==>{}", ip, request.getRequestURL(), paramStr, System.currentTimeMillis() - startTime.get(), result);
+            log.info("response ip==>{}, url==>{}, args==>{}, cost==>{}ms, result==>{}", ip, request.getRequestURL(), params, System.currentTimeMillis() - startTime.get(), result);
 
             startTime.remove();
             MDC.remove(REQUEST_ID);

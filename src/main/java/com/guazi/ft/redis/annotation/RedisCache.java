@@ -20,9 +20,9 @@ public @interface RedisCache {
     String key() default "";
 
     /**
-     * 缓存数据有效期,默认值-1表示永久有效
+     * 缓存数据有效期, -1表示永久有效
      *
      * @return 过期时间
      */
-    long timeout() default -1;
+    long timeout() default 300_000;
 }
