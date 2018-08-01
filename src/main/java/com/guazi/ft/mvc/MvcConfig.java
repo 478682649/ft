@@ -3,8 +3,6 @@ package com.guazi.ft.mvc;
 import com.guazi.ft.aop.ControllerAspect;
 import com.guazi.ft.common.JsonUtil;
 import org.apache.commons.collections.CollectionUtils;
-import org.springframework.boot.web.servlet.MultipartConfigFactory;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
@@ -18,7 +16,6 @@ import org.springframework.web.servlet.config.annotation.PathMatchConfigurer;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 
-import javax.servlet.MultipartConfigElement;
 import java.io.BufferedWriter;
 import java.io.OutputStreamWriter;
 import java.nio.charset.Charset;
@@ -70,23 +67,6 @@ public class MvcConfig extends WebMvcConfigurationSupport {
                 stringHttpMessageConverter.setDefaultCharset(Charset.forName("UTF-8"));
             }
         });
-    }
-
-    /**
-     * 文件上传配置
-     */
-    @Bean
-    public MultipartConfigElement multipartConfigElement() {
-
-        MultipartConfigFactory factory = new MultipartConfigFactory();
-
-        // 单个文件最大
-        factory.setMaxFileSize("5MB");
-
-        /// 设置总上传数据总大小
-        factory.setMaxRequestSize("20MB");
-
-        return factory.createMultipartConfig();
     }
 
     @Override
