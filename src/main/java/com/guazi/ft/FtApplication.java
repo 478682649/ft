@@ -16,7 +16,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.boot.web.servlet.MultipartConfigFactory;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.Bean;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -30,6 +32,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.mail.internet.MimeMessage;
+import javax.servlet.MultipartConfigElement;
 import javax.servlet.http.HttpServletRequest;
 import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
@@ -177,6 +180,19 @@ public class FtApplication {
         //List<ServiceInstance> serviceInstances = discoveryClient.getInstances("business");
         //return JsonUtil.object2Json(serviceInstances);
         return "discovery";
+    }
+
+    /**
+     * 文件上传配置
+     */
+    @Bean
+    public MultipartConfigElement multipartConfigElement() {
+        MultipartConfigFactory factory = new MultipartConfigFactory();
+        // 单个文件最大
+        factory.setMaxFileSize("5MB");
+        /// 设置总上传数据总大小
+        factory.setMaxRequestSize("20MB");
+        return factory.createMultipartConfig();
     }
 
     /**
