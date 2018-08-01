@@ -1,20 +1,26 @@
 package com.guazi.ft.mvc;
 
+import com.guazi.ft.aop.ControllerAspect;
 import com.guazi.ft.common.JsonUtil;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.boot.web.servlet.MultipartConfigFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.servlet.HandlerExceptionResolver;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.PathMatchConfigurer;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 
 import javax.servlet.MultipartConfigElement;
+import java.io.BufferedWriter;
+import java.io.OutputStreamWriter;
 import java.nio.charset.Charset;
 import java.util.List;
 
@@ -86,5 +92,31 @@ public class MvcConfig extends WebMvcConfigurationSupport {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**").allowedOrigins(CorsConfiguration.ALL).allowedMethods(CorsConfiguration.ALL).allowCredentials(Boolean.TRUE);
+    }
+
+    @Override
+    public void extendHandlerExceptionResolvers(List<HandlerExceptionResolver> exceptionResolvers) {
+        exceptionResolvers.clear();
+        String charSet = "UTF-8";
+        exceptionResolvers.add((request, response, handler, ex) -> {
+
+            response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
+
+            try (BufferedWriter out = new BufferedWriter(new OutputStreamWriter(response.getOutputStream(), charSet))) {
+                Object obj = ((ControllerAspect.ExceptionHandler) (httpServletRequest, httpServletResponse, throwable) -> null).handle(request, response, ex);
+                String result;
+                if (obj instanceof String) {
+                    result = (String) obj;
+                } else {
+                    result = JsonUtil.object2Json(obj);
+                }
+                if (result == null) {
+                    result = "";
+                }
+                out.write(result);
+            } catch (Exception e) {
+            }
+            return new ModelAndView();
+        });
     }
 }
