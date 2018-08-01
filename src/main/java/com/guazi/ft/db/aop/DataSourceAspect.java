@@ -6,7 +6,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.*;
 import org.aspectj.lang.reflect.MethodSignature;
-import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 
 import java.lang.reflect.Method;
@@ -16,7 +15,7 @@ import java.lang.reflect.Method;
  *
  * @author shichunyang
  */
-@Order(Ordered.HIGHEST_PRECEDENCE)
+@Order(-1000)
 @Aspect
 @Slf4j
 public class DataSourceAspect {
@@ -52,7 +51,7 @@ public class DataSourceAspect {
                 DataSource dataSource = methodClass.getAnnotation(DataSource.class);
                 String dynamic = dataSource.value();
 
-                log.info("service==>{}, args==>{}, 选择动态数据源==>{}", method, joinPoint.getArgs(), dynamic);
+                log.info("service==>{}, args==>{}, 选择动态数据源==>{}", method, JsonUtil.object2Json(joinPoint.getArgs()), dynamic);
 
                 DataSourceHolder.setDataSourceKey(dynamic);
             }
@@ -70,7 +69,7 @@ public class DataSourceAspect {
                 "." + joinPoint.getSignature().getName();
 
         result = JsonUtil.object2Json(result);
-        log.info("service==>{}, args==>{}, cost==>{}ms, result==>{}", method, joinPoint.getArgs(), System.currentTimeMillis() - startTime.get(), result);
+        log.info("service==>{}, args==>{}, cost==>{}ms, result==>{}", method, JsonUtil.object2Json(joinPoint.getArgs()), System.currentTimeMillis() - startTime.get(), result);
 
         startTime.remove();
         DataSourceHolder.clearDataSourceKey();
