@@ -19,7 +19,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.PlatformTransactionManager;
 
 import javax.sql.DataSource;
@@ -78,7 +77,7 @@ public class ConsignDataSourceConfig {
 
     @Bean("consignTransactionManager")
     public PlatformTransactionManager transactionManager(@Qualifier("consignDataSource") DataSource dataSource, @Qualifier("consignSqlSessionFactory") SqlSessionFactory consignSqlSessionFactory) {
-        System.out.println(consignSqlSessionFactory.getConfiguration().getEnvironment().getDataSource() == dataSource);
+        // System.out.println(consignSqlSessionFactory.getConfiguration().getEnvironment().getDataSource() == dataSource);
         return new FtDataSourceTransactionManager(dataSource);
     }
 

@@ -72,8 +72,8 @@ eureka:
   client:
     service-url:
       defaultZone: http://eureka1:7001/eureka/,http://eureka2:7002/eureka/,http://eureka3:7003/eureka/
-    register-with-eureka: true
-    fetch-registry: true
+    register-with-eureka: false
+    fetch-registry: false
   instance:
     instance-id: business-9001 #微服务别名
     prefer-ip-address: true #显示IP
