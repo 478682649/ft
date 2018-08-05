@@ -54,21 +54,24 @@ public class LoginUtil {
 
         // 从请求参数中获取
         String loginToken = request.getParameter(LoginConstant.PARAM_LOGIN_TOKEN);
-
-        // 从cookie中获取
-        if (StringUtil.isNull(loginToken)) {
-            loginToken = CookieUtil.getCookie(request, LoginConstant.PARAM_LOGIN_TOKEN);
-        }
-
-        // 从header中获取
-        if (StringUtil.isNull(loginToken)) {
-            loginToken = request.getHeader(LoginConstant.PARAM_LOGIN_TOKEN);
+        if (!StringUtil.isEmpty(loginToken)) {
+            return loginToken;
         }
 
         // 从request域中获取
-        if (StringUtil.isNull(loginToken)) {
-            loginToken = (String) request.getAttribute(LoginConstant.PARAM_LOGIN_TOKEN);
+        loginToken = (String) request.getAttribute(LoginConstant.PARAM_LOGIN_TOKEN);
+        if (!StringUtil.isEmpty(loginToken)) {
+            return loginToken;
         }
+
+        // 从header中获取
+        loginToken = request.getHeader(LoginConstant.PARAM_LOGIN_TOKEN);
+        if (!StringUtil.isEmpty(loginToken)) {
+            return loginToken;
+        }
+
+        // 从cookie中获取
+        loginToken = CookieUtil.getCookie(request, LoginConstant.PARAM_LOGIN_TOKEN);
 
         return loginToken;
     }
