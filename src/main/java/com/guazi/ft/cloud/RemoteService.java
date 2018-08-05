@@ -1,6 +1,7 @@
 package com.guazi.ft.cloud;
 
 import com.guazi.ft.dao.consign.model.UserDO;
+import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -9,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
  *
  * @author shichunyang
  */
-//@FeignClient(name = "feign", fallbackFactory = RemoteServiceFallbackFactory.class)
+@FeignClient(name = "feign", fallbackFactory = RemoteServiceFallbackFactory.class)
 public interface RemoteService {
 
     /**

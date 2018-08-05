@@ -1,12 +1,13 @@
 package com.guazi.ft;
 
-import com.guazi.ft.common.CommonUtil;
-import com.guazi.ft.common.DateUtil;
-import com.guazi.ft.common.ExcelUtil;
-import com.guazi.ft.common.SpringContextUtil;
+import com.guazi.ft.cloud.hystrix.ThreadLocalHystrixConcurrencyStrategy;
+import com.guazi.ft.common.*;
 import com.guazi.ft.config.profile.ProFile;
 import com.guazi.ft.constant.PropertiesConstants;
 import com.guazi.ft.exception.FtException;
+import com.netflix.hystrix.strategy.HystrixPlugins;
+import com.netflix.loadbalancer.IRule;
+import com.netflix.loadbalancer.RoundRobinRule;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -17,6 +18,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.web.servlet.MultipartConfigFactory;
+import org.springframework.cloud.client.ServiceInstance;
+import org.springframework.cloud.client.discovery.DiscoveryClient;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
+import org.springframework.cloud.netflix.hystrix.EnableHystrix;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.io.ByteArrayResource;
@@ -51,16 +58,16 @@ import java.util.*;
 @EnableConfigurationProperties({PropertiesConstants.class})
 @EnableScheduling
 @EnableRetry
-//@EnableEurekaClient
-//@EnableDiscoveryClient
-//@EnableFeignClients
-//@EnableHystrix
+@EnableEurekaClient
+@EnableDiscoveryClient
+@EnableFeignClients
+@EnableHystrix
 public class FtApplication {
 
-//    @Bean
-//    public IRule iRule() {
-//        return new RoundRobinRule();
-//    }
+    @Bean
+    public IRule iRule() {
+        return new RoundRobinRule();
+    }
 
     private final PropertiesConstants propertiesConstants;
 
@@ -170,16 +177,15 @@ public class FtApplication {
         return "success";
     }
 
-    //@Autowired
-    //private DiscoveryClient discoveryClient;
+    @Autowired
+    private DiscoveryClient discoveryClient;
 
     @GetMapping("/discovery")
     public String discovery() {
-        //List<String> services = discoveryClient.getServices();
-        //System.out.println(JsonUtil.object2Json(services));
-        //List<ServiceInstance> serviceInstances = discoveryClient.getInstances("business");
-        //return JsonUtil.object2Json(serviceInstances);
-        return "discovery";
+        List<String> services = discoveryClient.getServices();
+        System.out.println(JsonUtil.object2Json(services));
+        List<ServiceInstance> serviceInstances = discoveryClient.getInstances("business");
+        return JsonUtil.object2Json(serviceInstances);
     }
 
     /**
@@ -202,7 +208,7 @@ public class FtApplication {
     public static void main(String[] args) {
 
         // 托管hystrix线程池
-        //HystrixPlugins.getInstance().registerConcurrencyStrategy(new ThreadLocalHystrixConcurrencyStrategy());
+        HystrixPlugins.getInstance().registerConcurrencyStrategy(new ThreadLocalHystrixConcurrencyStrategy());
 
         ApplicationContext applicationContext = SpringApplication.run(FtApplication.class, args);
         SpringContextUtil.setApplicationContext(applicationContext);
