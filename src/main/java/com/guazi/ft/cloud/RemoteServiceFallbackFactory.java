@@ -1,6 +1,7 @@
 package com.guazi.ft.cloud;
 
 import com.guazi.ft.dao.consign.model.UserDO;
+import feign.hystrix.FallbackFactory;
 import org.springframework.stereotype.Component;
 
 /**
@@ -9,8 +10,8 @@ import org.springframework.stereotype.Component;
  * @author shichunyang
  */
 @Component
-public class RemoteServiceFallbackFactory /*implements FallbackFactory<RemoteService>*/ {
-    //@Override
+public class RemoteServiceFallbackFactory implements FallbackFactory<RemoteService> {
+    @Override
     public RemoteService create(Throwable throwable) {
         return new RemoteService() {
             @Override

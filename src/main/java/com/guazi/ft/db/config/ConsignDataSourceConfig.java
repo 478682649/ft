@@ -9,6 +9,7 @@ import com.guazi.ft.db.DynamicDataSource;
 import com.guazi.ft.db.config.consign.ConsignDataSourceMaster;
 import com.guazi.ft.db.config.consign.ConsignDataSourceSlave1;
 import com.guazi.ft.db.config.consign.ConsignDataSourceSlave2;
+import com.netflix.hystrix.contrib.metrics.eventstream.HystrixMetricsStreamServlet;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -109,10 +110,10 @@ public class ConsignDataSourceConfig {
         return webStatFilter;
     }
 
-//    @Bean
-//    public ServletRegistrationBean hystrixMetricsStreamServlet() {
-//        ServletRegistrationBean<HystrixMetricsStreamServlet> registrationBean = new ServletRegistrationBean<>(new HystrixMetricsStreamServlet());
-//        registrationBean.addUrlMappings("/hystrix.stream");
-//        return registrationBean;
-//    }
+    @Bean
+    public ServletRegistrationBean hystrixMetricsStreamServlet() {
+        ServletRegistrationBean<HystrixMetricsStreamServlet> registrationBean = new ServletRegistrationBean<>(new HystrixMetricsStreamServlet());
+        registrationBean.addUrlMappings("/actuator/hystrix.stream");
+        return registrationBean;
+    }
 }

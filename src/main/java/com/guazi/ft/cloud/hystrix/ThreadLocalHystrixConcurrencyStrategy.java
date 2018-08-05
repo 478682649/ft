@@ -1,11 +1,20 @@
 package com.guazi.ft.cloud.hystrix;
 
+import com.google.common.util.concurrent.ThreadFactoryBuilder;
+import com.netflix.hystrix.HystrixThreadPoolKey;
+import com.netflix.hystrix.HystrixThreadPoolProperties;
+import com.netflix.hystrix.strategy.concurrency.HystrixConcurrencyStrategy;
+import lombok.extern.slf4j.Slf4j;
+
+import java.util.concurrent.ThreadFactory;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
+
 /**
  * ThreadLocalHystrixConcurrencyStrategy
  *
  * @author shichunyang
  */
-/*
 @Slf4j
 public class ThreadLocalHystrixConcurrencyStrategy extends HystrixConcurrencyStrategy {
     @Override
@@ -30,4 +39,3 @@ public class ThreadLocalHystrixConcurrencyStrategy extends HystrixConcurrencyStr
         );
     }
 }
-*/
