@@ -3,6 +3,8 @@ package com.guazi.ft.common;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.security.*;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
@@ -161,6 +163,14 @@ public class RsaUtil {
             }
             signatureParams.put(requestParameterName, request.getParameter(requestParameterName));
         }
+
+        signatureParams.entrySet().forEach(entry -> {
+            try {
+                entry.setValue(URLEncoder.encode(entry.getValue(), HttpUtil.DEFAULT_RESPONSE_CHARSET));
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+        });
 
         return signatureParams;
     }
