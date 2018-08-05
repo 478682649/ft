@@ -51,7 +51,8 @@ public class DataSourceAspect {
                 DataSource dataSource = methodClass.getAnnotation(DataSource.class);
                 String dynamic = dataSource.value();
 
-                log.info("service==>{}, args==>{}, 选择动态数据源==>{}", method, JsonUtil.object2Json(joinPoint.getArgs()), dynamic);
+                Object[] params = joinPoint.getArgs();
+                log.info("service==>{}, args==>{}, 选择动态数据源==>{}", method, params, dynamic);
 
                 DataSourceHolder.setDataSourceKey(dynamic);
             }
@@ -68,8 +69,14 @@ public class DataSourceAspect {
         String method = joinPoint.getTarget().getClass().getName() +
                 "." + joinPoint.getSignature().getName();
 
-        result = JsonUtil.object2Json(result);
-        log.info("service==>{}, args==>{}, cost==>{}ms, result==>{}", method, JsonUtil.object2Json(joinPoint.getArgs()), System.currentTimeMillis() - startTime.get(), result);
+        Object[] params = joinPoint.getArgs();
+        String str;
+        if (result instanceof String) {
+            str = (String) result;
+        } else {
+            str = JsonUtil.object2Json(result);
+        }
+        log.info("service==>{}, args==>{}, cost==>{}ms, result==>{}", method, params, System.currentTimeMillis() - startTime.get(), str);
 
         startTime.remove();
         DataSourceHolder.clearDataSourceKey();
