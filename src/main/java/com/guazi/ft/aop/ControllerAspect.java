@@ -74,7 +74,9 @@ public class ControllerAspect {
 
             this.init(request);
 
-            log.info("request controller==>{}, args==>{}", method, JsonUtil.object2Json(joinPoint.getArgs()));
+            Object[] params = joinPoint.getArgs();
+
+            log.info("request controller==>{}, args==>{}", method, params);
 
             Object obj = joinPoint.proceed();
             if (obj instanceof String) {
@@ -83,7 +85,6 @@ public class ControllerAspect {
                 result = JsonUtil.object2Json(obj);
             }
 
-            String params = JsonUtil.object2Json(joinPoint.getArgs());
             String ip = HttpUtil.getIpAddress(request);
             // 记录耗时
             log.info("response ip==>{}, url==>{}, args==>{}, cost==>{}ms, result==>{}", ip, request.getRequestURL(), params, System.currentTimeMillis() - startTime.get(), result);

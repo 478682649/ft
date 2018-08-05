@@ -11,6 +11,7 @@ import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.lang.reflect.Method;
+import java.util.Arrays;
 
 /**
  * RedisAop
@@ -37,7 +38,7 @@ public class RedisAop {
 
             // 得到被代理的方法上的注解
             RedisCache annotation = method.getAnnotation(RedisCache.class);
-            String redisKey = annotation.key() + ":" + JsonUtil.object2Json(joinPoint.getArgs());
+            String redisKey = annotation.key() + ":" + Arrays.toString(joinPoint.getArgs());
 
             long timeout = annotation.timeout();
 
