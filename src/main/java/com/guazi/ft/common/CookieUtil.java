@@ -3,6 +3,7 @@ package com.guazi.ft.common;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.stream.Stream;
 
 /**
  * Cookie 工具类
@@ -24,20 +25,17 @@ public class CookieUtil {
      * 获取指定名称的cookie值
      */
     public static String getCookie(HttpServletRequest request, String cookieName) {
-
         Cookie[] cookies = request.getCookies();
-
         if (cookies == null) {
             return null;
         }
 
-        for (Cookie cookie : cookies) {
-            if (cookie.getName().equals(cookieName)) {
-                return cookie.getValue();
-            }
-        }
+        Cookie cookie = Stream.of(cookies)
+                .filter(c -> cookieName.equals(c.getName()))
+                .findFirst()
+                .orElse(null);
 
-        return null;
+        return cookie == null ? null : cookie.getValue();
     }
 
     /**
