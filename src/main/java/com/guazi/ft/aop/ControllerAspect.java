@@ -2,6 +2,8 @@ package com.guazi.ft.aop;
 
 import com.alibaba.ttl.TransmittableThreadLocal;
 import com.guazi.ft.common.*;
+import com.guazi.ft.common.annotation.ConfigParam;
+import com.guazi.ft.common.annotation.ConfigParams;
 import com.guazi.ft.dao.consign.model.UserDO;
 import com.guazi.ft.exception.FtException;
 import com.guazi.ft.rest.RestResult;
@@ -20,6 +22,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.lang.reflect.Method;
+import java.util.stream.Stream;
 
 /**
  * Controller切面、异常处理
@@ -63,6 +66,8 @@ public class ControllerAspect {
         // 得到被代理的方法
         Method method = ((MethodSignature) joinPoint.getSignature()).getMethod();
         Class<?> beanType = method.getDeclaringClass();
+
+        this.getConfigParams(beanType, method);
 
         ServletRequestAttributes attributes =
                 (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
@@ -175,5 +180,19 @@ public class ControllerAspect {
 
         // 记录请求开始时间
         startTime.set(System.currentTimeMillis());
+    }
+
+    public void getConfigParams(Class<?> beanType, Method method) {
+        boolean annotationPresent = CommonUtil.isAnnotationPresent(beanType, null, ConfigParams.class);
+        if (annotationPresent) {
+            ConfigParam[] params = beanType.getAnnotation(ConfigParams.class).value();
+            Stream.of(params).forEach(param -> System.out.println(param.paramName() + "==>" + param.paramValue()));
+        }
+
+        annotationPresent = CommonUtil.isAnnotationPresent(null, method, ConfigParams.class);
+        if (annotationPresent) {
+            ConfigParam[] params = method.getAnnotation(ConfigParams.class).value();
+            Stream.of(params).forEach(param -> System.out.println(param.paramName() + "==>" + param.paramValue()));
+        }
     }
 }

@@ -1,13 +1,14 @@
 package com.guazi.ft.common;
 
+import org.apache.commons.lang3.StringUtils;
+
+import javax.servlet.http.HttpServletRequest;
 import java.security.*;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
-import java.util.Base64;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * RSA算法工具类
@@ -40,6 +41,10 @@ public class RsaUtil {
      */
     public static final String PRIVATE_KEY = "RSAPrivateKey";
 
+    /**
+     * 签名参数名称
+     */
+    public static final String SIGNATURE_NAME = "signature";
 
     /**
      * RSA签名
@@ -137,6 +142,27 @@ public class RsaUtil {
         Key key = (Key) keyMap.get(PUBLIC_KEY);
 
         return Base64.getEncoder().encodeToString(key.getEncoded());
+    }
+
+    /**
+     * 获取用于签名的参数集合
+     *
+     * @param request 请求对象
+     * @return 用于签名的参数集合
+     */
+    public static SortedMap<String, String> getSignatureParams(HttpServletRequest request, String signatureName) {
+        SortedMap<String, String> signatureParams = new TreeMap<>();
+
+        Enumeration<String> requestParameterNames = request.getParameterNames();
+        while (requestParameterNames.hasMoreElements()) {
+            String requestParameterName = requestParameterNames.nextElement();
+            if (StringUtils.equals(requestParameterName, signatureName)) {
+                continue;
+            }
+            signatureParams.put(requestParameterName, request.getParameter(requestParameterName));
+        }
+
+        return signatureParams;
     }
 
     public static void main(String[] args) throws Exception {
