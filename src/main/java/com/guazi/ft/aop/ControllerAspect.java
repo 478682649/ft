@@ -1,6 +1,7 @@
 package com.guazi.ft.aop;
 
 import com.alibaba.ttl.TransmittableThreadLocal;
+import com.google.common.collect.Lists;
 import com.guazi.ft.common.*;
 import com.guazi.ft.common.annotation.ConfigParam;
 import com.guazi.ft.common.annotation.ConfigParams;
@@ -22,7 +23,10 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.lang.reflect.Method;
-import java.util.stream.Stream;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Controller切面、异常处理
@@ -67,7 +71,7 @@ public class ControllerAspect {
         Method method = ((MethodSignature) joinPoint.getSignature()).getMethod();
         Class<?> beanType = method.getDeclaringClass();
 
-        this.getConfigParams(beanType, method);
+        Map<String, String> configParams = this.getConfigParams(beanType, method);
 
         ServletRequestAttributes attributes =
                 (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
@@ -182,17 +186,24 @@ public class ControllerAspect {
         startTime.set(System.currentTimeMillis());
     }
 
-    public void getConfigParams(Class<?> beanType, Method method) {
+    /**
+     * 获取配置参数
+     */
+    private Map<String, String> getConfigParams(Class<?> beanType, Method method) {
+        List<ConfigParam> configParams = Lists.newLinkedList();
+
         boolean annotationPresent = CommonUtil.isAnnotationPresent(beanType, null, ConfigParams.class);
         if (annotationPresent) {
             ConfigParam[] params = beanType.getAnnotation(ConfigParams.class).value();
-            Stream.of(params).forEach(param -> System.out.println(param.paramName() + "==>" + param.paramValue()));
+            configParams.addAll(Arrays.asList(params));
         }
 
         annotationPresent = CommonUtil.isAnnotationPresent(null, method, ConfigParams.class);
         if (annotationPresent) {
             ConfigParam[] params = method.getAnnotation(ConfigParams.class).value();
-            Stream.of(params).forEach(param -> System.out.println(param.paramName() + "==>" + param.paramValue()));
+            configParams.addAll(Arrays.asList(params));
         }
+
+        return configParams.stream().collect(Collectors.toMap(ConfigParam::paramName, ConfigParam::paramValue));
     }
 }
