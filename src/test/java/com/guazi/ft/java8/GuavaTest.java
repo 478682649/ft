@@ -8,6 +8,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.*;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class GuavaTest {
@@ -20,11 +21,12 @@ public class GuavaTest {
     }
 
     @Test
-    public void splitter() {
-        List<Integer> numbers = Splitter.on(',')
+    public void comma() {
+        Pattern pattern = Pattern.compile("[,，]+");
+        List<Integer> numbers = Splitter.on(pattern)
                 .trimResults()
                 .omitEmptyStrings()
-                .splitToList("1 ,2, , 3 , 4,,")
+                .splitToList(",1，,，  2,，，,  3，,")
                 .stream().map(Integer::parseInt).collect(Collectors.toCollection(LinkedList::new));
         numbers.forEach(System.out::println);
     }
