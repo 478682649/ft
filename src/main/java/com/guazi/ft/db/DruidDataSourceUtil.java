@@ -84,17 +84,17 @@ public class DruidDataSourceUtil {
         // 扩展插件
         druidDataSource.setFilters("stat,wall,log4j");
         // 获取连接时最大等待时间(单位毫秒)
-        druidDataSource.setMaxWait(60000L);
+        druidDataSource.setMaxWait(10_000L);
         // 配置间隔多久才进行一次检测,检测需要关闭的空闲连接(单位是毫秒)
-        druidDataSource.setTimeBetweenEvictionRunsMillis(300000L);
+        druidDataSource.setTimeBetweenEvictionRunsMillis(300_000L);
         // 配置一个连接在池中最小生存的时间(单位是毫秒)
-        druidDataSource.setMinEvictableIdleTimeMillis(1800000L);
+        druidDataSource.setMinEvictableIdleTimeMillis(300_000L);
         // 检测连接是否有效的sql
         druidDataSource.setValidationQuery("SELECT 'x'");
         // 建议配置为true,不影响性能,并且保证安全性。申请连接的时候检测,如果空闲时间大于timeBetweenEvictionRunsMillis,执行validationQuery检测连接是否有效。
         druidDataSource.setTestWhileIdle(true);
         // 申请连接时执行validationQuery检测连接是否有效,做了这个配置会降低性能。
-        druidDataSource.setTestOnBorrow(false);
+        druidDataSource.setTestOnBorrow(true);
         // 归还连接时执行validationQuery检测连接是否有效,做了这个配置会降低性能。
         druidDataSource.setTestOnReturn(false);
 
