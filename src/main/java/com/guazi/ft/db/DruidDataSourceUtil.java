@@ -101,5 +101,9 @@ public class DruidDataSourceUtil {
         // 是否缓存preparedStatement
         druidDataSource.setPoolPreparedStatements(true);
         druidDataSource.setMaxPoolPreparedStatementPerConnectionSize(50);
+
+        druidDataSource.setRemoveAbandoned(true);
+        druidDataSource.setRemoveAbandonedTimeout(1800);
+        druidDataSource.setLogAbandoned(true);
     }
 }
