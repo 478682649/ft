@@ -1,13 +1,14 @@
 package com.guazi.ft.nr.controller;
 
 import com.guazi.ft.cloud.RemoteService;
+import com.guazi.ft.common.JsonUtil;
 import com.guazi.ft.dao.consign.model.UserDO;
+import com.guazi.ft.nr.controller.model.ValidParent;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.Date;
 
 /**
@@ -35,5 +36,10 @@ public class NrController {
         String json = remoteService.user(user);
         log.info("springCloud==>{}", json);
         return json;
+    }
+
+    @PutMapping("/valid-model")
+    public String valid(@RequestBody @Valid ValidParent validParent) {
+        return JsonUtil.object2Json(validParent);
     }
 }

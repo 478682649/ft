@@ -16,6 +16,9 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.slf4j.MDC;
 import org.springframework.core.annotation.Order;
+import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -155,6 +158,14 @@ public class ControllerAspect {
             } else if (throwable instanceof MissingServletRequestParameterException) {
                 MissingServletRequestParameterException missingServletRequestParameterException = (MissingServletRequestParameterException) throwable;
                 restResult = new RestResult<>(RestResult.ERROR_CODE, "参数:" + missingServletRequestParameterException.getParameterName() + "必传, 参数类型:" + missingServletRequestParameterException.getParameterType(), null);
+            } else if (throwable instanceof HttpRequestMethodNotSupportedException) {
+                HttpRequestMethodNotSupportedException httpRequestMethodNotSupportedException = (HttpRequestMethodNotSupportedException) throwable;
+                restResult = new RestResult<>(RestResult.ERROR_CODE, httpRequestMethodNotSupportedException.getMethod() + "请求不支持", null);
+            } else if (throwable instanceof MethodArgumentNotValidException) {
+                MethodArgumentNotValidException methodArgumentNotValidException = (MethodArgumentNotValidException) throwable;
+                restResult = new RestResult<>(RestResult.ERROR_CODE, methodArgumentNotValidException.getBindingResult().getFieldErrors().get(0).getDefaultMessage(), null);
+            } else if (throwable instanceof HttpMessageNotReadableException) {
+                restResult = new RestResult<>(RestResult.ERROR_CODE, throwable.getMessage(), null);
             } else {
                 log.error("ip==>{}, url==>{}, args==>{}, exception==>{}", ip, request.getRequestURL(), paramStr, JsonUtil.object2Json(throwable), throwable);
                 restResult = new RestResult<>(RestResult.ERROR_CODE, throwable.getMessage(), null);
