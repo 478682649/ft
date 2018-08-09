@@ -371,6 +371,14 @@ public class CommonUtil {
         }
     }
 
+    /**
+     * 转换map参数
+     */
+    public static String exchangeParams(Map<String, String> params) {
+        String result = params.entrySet().stream().reduce("", (temporary, entry) -> temporary.concat(entry.getKey()).concat("=").concat(entry.getValue()).concat("&"), String::concat);
+        return result.substring(0, result.length() - 1);
+    }
+
     public static void main(String[] args) {
     }
 }
