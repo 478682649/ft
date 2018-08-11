@@ -61,6 +61,10 @@ public class StringUtil {
         return false;
     }
 
+    public static boolean equals(Object obj1, Object obj2) {
+        return (obj1 == obj2) || (obj1 != null && obj1.equals(obj2));
+    }
+
     /**
      * 将字符串数组通过分隔符连接成字符串
      *
