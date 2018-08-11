@@ -172,4 +172,42 @@ public class StreamTest {
 
         System.out.println(result);
     }
+
+    @Test
+    public void initCollection() {
+        Set<String> urls = new HashSet<String>() {
+            {
+                add("/health-check");
+                add("/error");
+                add("/disable");
+            }
+        };
+        System.out.println(urls);
+
+        Map<String, Object> map = new HashMap<String, Object>() {
+            {
+                put("username", "scy");
+                put("age", 27);
+            }
+        };
+        System.out.println(map);
+    }
+
+    @Test
+    public void merge() {
+        Map<String, Integer> counter = new HashMap<String, Integer>() {
+            {
+                put("A", 100);
+                put("B", 200);
+                put("C", 300);
+            }
+        };
+        counter.merge("A", 400, (oldValue, newValue) -> oldValue + newValue);
+
+        counter.putIfAbsent("A", 0);
+
+        counter.forEach((key, value) -> System.out.println(key + "_" + value));
+
+        System.out.println(counter.getOrDefault("D", 666));
+    }
 }
