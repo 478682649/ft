@@ -25,6 +25,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.List;
@@ -165,6 +166,8 @@ public class ControllerAspect {
                 MethodArgumentNotValidException methodArgumentNotValidException = (MethodArgumentNotValidException) throwable;
                 restResult = new RestResult<>(RestResult.ERROR_CODE, methodArgumentNotValidException.getBindingResult().getFieldErrors().get(0).getDefaultMessage(), null);
             } else if (throwable instanceof HttpMessageNotReadableException) {
+                restResult = new RestResult<>(RestResult.ERROR_CODE, throwable.getMessage(), null);
+            } else if (throwable instanceof IOException) {
                 restResult = new RestResult<>(RestResult.ERROR_CODE, throwable.getMessage(), null);
             } else {
                 log.error("ip==>{}, url==>{}, args==>{}, exception==>{}", ip, request.getRequestURL(), paramStr, JsonUtil.object2Json(throwable), throwable);
