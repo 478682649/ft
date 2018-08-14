@@ -1,5 +1,6 @@
 package com.guazi.ft.exception;
 
+import com.guazi.ft.rest.RestResult;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -22,4 +23,10 @@ public class FtException extends RuntimeException {
         this.code = code;
         this.message = message;
     }
+
+    public FtException(String message, Object... args) {
+        this.code = RestResult.ERROR_CODE;
+        this.message = String.format(message, args);
+    }
+
 }
