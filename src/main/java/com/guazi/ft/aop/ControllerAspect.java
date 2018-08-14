@@ -153,7 +153,7 @@ public class ControllerAspect {
 
             RestResult<Object> restResult;
             if (throwable instanceof FtException) {
-                log.error("ip==>{}, url==>{}, args==>{}, custom exception==>{}", ip, request.getRequestURL(), paramStr, throwable.getMessage());
+                log.info("ip==>{}, url==>{}, args==>{}, custom exception==>{}", ip, request.getRequestURL(), paramStr, throwable.getMessage());
                 restResult = new RestResult<>(((FtException) throwable).getCode(), throwable.getMessage(), null);
             } else if (throwable instanceof MissingServletRequestParameterException) {
                 MissingServletRequestParameterException missingServletRequestParameterException = (MissingServletRequestParameterException) throwable;
