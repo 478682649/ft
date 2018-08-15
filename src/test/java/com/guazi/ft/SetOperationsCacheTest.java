@@ -19,7 +19,7 @@ import java.util.Set;
 @RunWith(SpringRunner.class)
 public class SetOperationsCacheTest {
 
-    @Resource(name = "businessSetOperationsCache")
+    @Resource(name = "setOperationsCache")
     private SetOperationsCache setOperationsCache;
 
     private static final String NUMBER_SET = "number_set";

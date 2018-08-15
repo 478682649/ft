@@ -16,7 +16,7 @@ import java.util.Set;
 @RunWith(SpringRunner.class)
 public class RedisTest {
 
-    @Resource(name = "businessValueOperationsCache")
+    @Resource(name = "valueOperationsCache")
     private ValueOperationsCache valueOperationsCache;
 
     private static final String LOGIN_ID = "login_id";

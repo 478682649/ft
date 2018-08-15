@@ -30,14 +30,13 @@ druid:
       maxActive: 20
 
 redis:
-  business:
-    hostName: localhost
-    port: 6379
-    password:
-    database: 0
-    minIdle: 20
-    maxIdle: 50
-    maxTotal: 100
+  hostName: localhost
+  port: 6379
+  password:
+  database: 0
+  minIdle: 20
+  maxIdle: 20
+  maxTotal: 50
 
 cookieDomain: guazi.com
 
