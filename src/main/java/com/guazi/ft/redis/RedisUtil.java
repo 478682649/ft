@@ -20,15 +20,15 @@ public class RedisUtil {
     public static void initJedisPoolConfig(JedisPoolConfig jedisPoolConfig) {
 
         // 获取连接的最大等待时间(单位毫秒)
-        jedisPoolConfig.setMaxWaitMillis(60000L);
+        jedisPoolConfig.setMaxWaitMillis(10_000L);
         // 逐出扫描的时间间隔(毫秒)
-        jedisPoolConfig.setTimeBetweenEvictionRunsMillis(300000L);
+        jedisPoolConfig.setTimeBetweenEvictionRunsMillis(300_000L);
         // 连接最小生存时间(毫秒)
-        jedisPoolConfig.setMinEvictableIdleTimeMillis(1800000L);
+        jedisPoolConfig.setMinEvictableIdleTimeMillis(300_000L);
         // 空闲时检测连接
         jedisPoolConfig.setTestWhileIdle(true);
         // 申请连接时是否检测
-        jedisPoolConfig.setTestOnBorrow(false);
+        jedisPoolConfig.setTestOnBorrow(true);
         // 归还连接时是否检测
         jedisPoolConfig.setTestOnReturn(false);
     }
