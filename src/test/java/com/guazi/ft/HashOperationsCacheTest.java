@@ -15,7 +15,7 @@ import java.util.Map;
 @RunWith(SpringRunner.class)
 public class HashOperationsCacheTest {
 
-    @Resource(name = "businessHashOperationsCache")
+    @Resource(name = "hashOperationsCache")
     private HashOperationsCache hashOperationsCache;
 
     public static final String USER_MAP = "user_map";

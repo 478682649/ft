@@ -1,14 +1,14 @@
 package com.guazi.ft.redis.business;
 
 import com.guazi.ft.common.JsonUtil;
+import com.guazi.ft.redis.RedisDO;
 import com.guazi.ft.redis.RedisUtil;
 import com.guazi.ft.redis.base.HashOperationsCache;
 import com.guazi.ft.redis.base.ListOperationsCache;
 import com.guazi.ft.redis.base.SetOperationsCache;
 import com.guazi.ft.redis.base.ValueOperationsCache;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
@@ -23,43 +23,39 @@ import redis.clients.jedis.JedisPoolConfig;
  * @author shichunyang
  */
 @Configuration
-@EnableConfigurationProperties({BusinessRedisDO.class})
 public class BusinessRedisConfig {
 
-    public static final String BUSINESS = "business";
-
-    private final BusinessRedisDO businessRedisDO;
-
-    @Autowired
-    public BusinessRedisConfig(BusinessRedisDO businessRedisDO) {
-        this.businessRedisDO = businessRedisDO;
+    @Bean("redisSetting")
+    @ConfigurationProperties(prefix = "redis")
+    public RedisDO redisDO() {
+        return new RedisDO();
     }
 
-    @Bean(BUSINESS + "JedisPoolConfig")
-    public JedisPoolConfig getJedisPoolConfig() {
-        return RedisUtil.getJedisPoolConfig(businessRedisDO.getMinIdle(), businessRedisDO.getMaxIdle(), businessRedisDO.getMaxTotal());
+    @Bean("jedisPoolConfig")
+    public JedisPoolConfig getJedisPoolConfig(@Qualifier("redisSetting") RedisDO redisSetting) {
+        return RedisUtil.getJedisPoolConfig(redisSetting.getMinIdle(), redisSetting.getMaxIdle(), redisSetting.getMaxTotal());
     }
 
-    @Bean(BUSINESS + "JedisConnectionFactory")
-    public JedisConnectionFactory getJedisConnectionFactory(@Qualifier(BUSINESS + "JedisPoolConfig") JedisPoolConfig jedisPoolConfig) {
-        return RedisUtil.getJedisConnectionFactory(jedisPoolConfig, businessRedisDO.getHostName(), businessRedisDO.getPort(), businessRedisDO.getPassword(), businessRedisDO.getDatabase());
+    @Bean("jedisConnectionFactory")
+    public JedisConnectionFactory getJedisConnectionFactory(@Qualifier("jedisPoolConfig") JedisPoolConfig jedisPoolConfig, @Qualifier("redisSetting") RedisDO redisSetting) {
+        return RedisUtil.getJedisConnectionFactory(jedisPoolConfig, redisSetting.getHostName(), redisSetting.getPort(), redisSetting.getPassword(), redisSetting.getDatabase());
     }
 
-    @Bean
+    @Bean("stringRedisSerializer")
     public StringRedisSerializer getStringRedisSerializer() {
         return new StringRedisSerializer();
     }
 
-    @Bean
+    @Bean("genericJackson2JsonRedisSerializer")
     public GenericJackson2JsonRedisSerializer getGenericJackson2JsonRedisSerializer() {
         return new GenericJackson2JsonRedisSerializer(new JsonUtil.JsonMapper());
     }
 
-    @Bean(BUSINESS + "RedisTemplate")
+    @Bean("redisTemplate")
     public RedisTemplate<String, String> getRedisTemplate(
-            StringRedisSerializer stringRedisSerializer,
-            GenericJackson2JsonRedisSerializer genericJackson2JsonRedisSerializer,
-            @Qualifier(BUSINESS + "JedisConnectionFactory") JedisConnectionFactory jedisConnectionFactory
+            @Qualifier("stringRedisSerializer") StringRedisSerializer stringRedisSerializer,
+            @Qualifier("genericJackson2JsonRedisSerializer") GenericJackson2JsonRedisSerializer genericJackson2JsonRedisSerializer,
+            @Qualifier("jedisConnectionFactory") JedisConnectionFactory jedisConnectionFactory
 
     ) {
         RedisTemplate<String, String> redisTemplate = new RedisTemplate<>();
@@ -73,23 +69,23 @@ public class BusinessRedisConfig {
         return redisTemplate;
     }
 
-    @Bean(BUSINESS + "ValueOperationsCache")
-    public ValueOperationsCache getValueOperationsCache(@Qualifier(BUSINESS + "RedisTemplate") RedisTemplate<String, String> redisTemplate) {
+    @Bean("valueOperationsCache")
+    public ValueOperationsCache getValueOperationsCache(@Qualifier("redisTemplate") RedisTemplate<String, String> redisTemplate) {
         return new ValueOperationsCache(redisTemplate);
     }
 
-    @Bean(BUSINESS + "ListOperationsCache")
-    public ListOperationsCache getListOperationsCache(@Qualifier(BUSINESS + "RedisTemplate") RedisTemplate<String, String> redisTemplate) {
+    @Bean("listOperationsCache")
+    public ListOperationsCache getListOperationsCache(@Qualifier("redisTemplate") RedisTemplate<String, String> redisTemplate) {
         return new ListOperationsCache(redisTemplate);
     }
 
-    @Bean(BUSINESS + "SetOperationsCache")
-    public SetOperationsCache getSetOperationsCache(@Qualifier(BUSINESS + "RedisTemplate") RedisTemplate<String, String> redisTemplate) {
+    @Bean("setOperationsCache")
+    public SetOperationsCache getSetOperationsCache(@Qualifier("redisTemplate") RedisTemplate<String, String> redisTemplate) {
         return new SetOperationsCache(redisTemplate);
     }
 
-    @Bean(BUSINESS + "HashOperationsCache")
-    public HashOperationsCache getHashOperationsCache(@Qualifier(BUSINESS + "RedisTemplate") RedisTemplate<String, String> redisTemplate) {
+    @Bean("hashOperationsCache")
+    public HashOperationsCache getHashOperationsCache(@Qualifier("redisTemplate") RedisTemplate<String, String> redisTemplate) {
         return new HashOperationsCache(redisTemplate);
     }
 }

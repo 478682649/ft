@@ -19,7 +19,7 @@ import java.util.List;
 @RunWith(SpringRunner.class)
 public class ListOperationsCacheTest {
 
-    @Resource(name = "businessListOperationsCache")
+    @Resource(name = "listOperationsCache")
     private ListOperationsCache listOperationsCache;
 
     public static final String NUMBER_LIST = "number_list";
