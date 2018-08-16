@@ -3,8 +3,10 @@ package com.guazi.ft.config;
 import com.guazi.ft.config.profile.DevProFile;
 import com.guazi.ft.config.profile.ProFile;
 import com.guazi.ft.config.profile.StagProFile;
+import com.guazi.ft.constant.PropertiesConstants;
 import com.guazi.ft.dao.consign.model.UserDO;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.*;
 
 /**
@@ -48,5 +50,11 @@ public class ProFileConfig {
         UserDO user = new UserDO();
         user.setUsername("zgl");
         return user;
+    }
+
+    @Bean
+    @ConfigurationProperties(prefix = "com.guazi")
+    public PropertiesConstants propertiesConstants() {
+        return new PropertiesConstants();
     }
 }

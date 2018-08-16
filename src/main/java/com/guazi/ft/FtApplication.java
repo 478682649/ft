@@ -16,7 +16,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.web.servlet.MultipartConfigFactory;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
@@ -55,7 +54,6 @@ import java.util.*;
 @EnableTransactionManagement(proxyTargetClass = true)
 @RestController
 @Slf4j
-@EnableConfigurationProperties({PropertiesConstants.class})
 @EnableScheduling
 @EnableRetry
 @EnableEurekaClient
@@ -63,14 +61,12 @@ import java.util.*;
 @EnableFeignClients
 @EnableHystrix
 public class FtApplication {
-
     @Bean
     public IRule iRule() {
         return new RoundRobinRule();
     }
 
     private final PropertiesConstants propertiesConstants;
-
     private final ProFile proFile;
 
     @Autowired
