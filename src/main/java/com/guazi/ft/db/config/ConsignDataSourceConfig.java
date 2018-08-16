@@ -4,16 +4,13 @@ import com.alibaba.druid.pool.DruidDataSource;
 import com.alibaba.druid.support.http.ResourceServlet;
 import com.alibaba.druid.support.http.StatViewServlet;
 import com.alibaba.druid.support.http.WebStatFilter;
+import com.guazi.ft.db.DruidDataSourceDO;
 import com.guazi.ft.db.DruidDataSourceUtil;
 import com.guazi.ft.db.DynamicDataSource;
-import com.guazi.ft.db.config.consign.ConsignDataSourceMaster;
-import com.guazi.ft.db.config.consign.ConsignDataSourceSlave1;
-import com.guazi.ft.db.config.consign.ConsignDataSourceSlave2;
 import com.netflix.hystrix.contrib.metrics.eventstream.HystrixMetricsStreamServlet;
 import org.apache.ibatis.session.SqlSessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -32,26 +29,32 @@ import java.util.*;
  */
 @Configuration
 @PropertySource(value = "classpath:/application.yml")
-@EnableConfigurationProperties({ConsignDataSourceMaster.class, ConsignDataSourceSlave1.class, ConsignDataSourceSlave2.class})
 public class ConsignDataSourceConfig {
 
-    private final ConsignDataSourceMaster consignDataSourceMaster;
-    private final ConsignDataSourceSlave1 consignDataSourceSlave1;
-    private final ConsignDataSourceSlave2 consignDataSourceSlave2;
+    @Bean("consignDataSourceMaster")
+    @ConfigurationProperties(prefix = "druid.consign.master")
+    public DruidDataSourceDO consignDataSourceMaster() {
+        return new DruidDataSourceDO();
+    }
 
-    @Autowired
-    public ConsignDataSourceConfig(
-            ConsignDataSourceMaster consignDataSourceMaster,
-            ConsignDataSourceSlave1 consignDataSourceSlave1,
-            ConsignDataSourceSlave2 consignDataSourceSlave2
-    ) {
-        this.consignDataSourceMaster = consignDataSourceMaster;
-        this.consignDataSourceSlave1 = consignDataSourceSlave1;
-        this.consignDataSourceSlave2 = consignDataSourceSlave2;
+    @Bean("consignDataSourceSlave1")
+    @ConfigurationProperties(prefix = "druid.consign.slave1")
+    public DruidDataSourceDO consignDataSourceSlave1() {
+        return new DruidDataSourceDO();
+    }
+
+    @Bean("consignDataSourceSlave2")
+    @ConfigurationProperties(prefix = "druid.consign.slave2")
+    public DruidDataSourceDO consignDataSourceSlave2() {
+        return new DruidDataSourceDO();
     }
 
     @Bean("consignDataSource")
-    public DataSource consignDataSource() {
+    public DataSource consignDataSource(
+            @Qualifier("consignDataSourceMaster") DruidDataSourceDO consignDataSourceMaster,
+            @Qualifier("consignDataSourceSlave1") DruidDataSourceDO consignDataSourceSlave1,
+            @Qualifier("consignDataSourceSlave2") DruidDataSourceDO consignDataSourceSlave2
+    ) {
 
         DynamicDataSource dynamicDataSource = new DynamicDataSource();
 
