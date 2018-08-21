@@ -23,7 +23,7 @@
                         connectionURL="jdbc:mysql://127.0.0.1:3306/consign" userId="root"
                         password=""/>
 
-        <javaTypeResolver>
+        <javaTypeResolver type="com.guazi.ft.CustomerJavaTypeResolverDefaultImpl">
             <property name="forceBigDecimals" value="false"/>
         </javaTypeResolver>
 
