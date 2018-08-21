@@ -11,7 +11,8 @@
 
     <context id="DB2Tables" targetRuntime="MyBatis3"
              defaultModelType="flat">
-        <plugin type="org.mybatis.generator.plugins.SerializablePlugin"/>
+
+        <plugin type="com.guazi.ft.CustomerPluginAdapter"/>
 
         <!-- 打开注释 -->
         <commentGenerator type="com.guazi.ft.DefaultCommentGenerator">
