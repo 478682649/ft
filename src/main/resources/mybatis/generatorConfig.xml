@@ -15,7 +15,7 @@
         <plugin type="com.guazi.ft.CustomerPluginAdapter"/>
 
         <!-- 打开注释 -->
-        <commentGenerator type="com.guazi.ft.DefaultCommentGenerator">
+        <commentGenerator type="com.guazi.ft.CustomerDefaultCommentGenerator">
             <property name="suppressAllComments" value="false"/>
         </commentGenerator>
 
