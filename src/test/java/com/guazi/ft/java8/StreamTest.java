@@ -1,10 +1,12 @@
 package com.guazi.ft.java8;
 
 import com.guazi.ft.common.JsonUtil;
+import com.guazi.ft.dao.consign.model.UserDO;
 import com.guazi.ft.java8.model.Employee;
 import org.junit.Test;
 
 import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -209,5 +211,27 @@ public class StreamTest {
         counter.forEach((key, value) -> System.out.println(key + "_" + value));
 
         System.out.println(counter.getOrDefault("D", 666));
+    }
+
+    @Test
+    public void toMap() {
+        UserDO u1 = new UserDO();
+        u1.setId(1L);
+        u1.setUsername("小一");
+
+        UserDO u2 = new UserDO();
+        u2.setId(2L);
+        u2.setUsername("小二");
+
+        UserDO u3 = new UserDO();
+        u3.setId(3L);
+        u3.setUsername("小三");
+
+        UserDO u4 = new UserDO();
+        u4.setId(2L);
+        u4.setUsername("小四");
+
+        Map<Long, UserDO> userMap = Stream.of(u1, u2, u3, u4).collect(Collectors.toMap(UserDO::getId, Function.identity(), (oldValue, newValue) -> newValue));
+        System.out.println(JsonUtil.object2Json(userMap));
     }
 }
