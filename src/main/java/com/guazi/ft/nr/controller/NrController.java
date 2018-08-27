@@ -4,6 +4,7 @@ import com.guazi.ft.cloud.RemoteService;
 import com.guazi.ft.common.JsonUtil;
 import com.guazi.ft.dao.consign.model.UserDO;
 import com.guazi.ft.nr.controller.model.ValidParent;
+import com.guazi.ft.websocket.OrderWebSocket;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -41,5 +42,14 @@ public class NrController {
     @PutMapping("/valid-model")
     public String valid(@RequestBody @Valid ValidParent validParent) {
         return JsonUtil.object2Json(validParent);
+    }
+
+    @PostMapping("/socket/push")
+    public String push(
+            @RequestParam Integer oid,
+            @RequestParam String msg
+    ) {
+        OrderWebSocket.ORDER_WEB_SOCKET.entrySet().stream().filter(entry -> entry.getValue().equals(oid)).forEach(entry -> OrderWebSocket.sendMessage(entry.getKey(), msg));
+        return "success";
     }
 }
