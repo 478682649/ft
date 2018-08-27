@@ -3,6 +3,7 @@ package com.guazi.ft.mvc;
 import com.guazi.ft.aop.ControllerAspect;
 import com.guazi.ft.common.JsonUtil;
 import org.apache.commons.collections.CollectionUtils;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
@@ -13,6 +14,7 @@ import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.config.annotation.*;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
+import org.springframework.web.socket.server.standard.ServerEndpointExporter;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -113,5 +115,13 @@ public class MvcConfig extends WebMvcConfigurationSupport {
                 response.addHeader("X-Frame-Options", "DENY");
             }
         });
+    }
+
+    /**
+     * 开启WebSocket支持
+     */
+    @Bean
+    public ServerEndpointExporter serverEndpointExporter() {
+        return new ServerEndpointExporter();
     }
 }
