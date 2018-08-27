@@ -11,9 +11,9 @@
     var socket = new WebSocket("ws://localhost:9001/order/socket/" + getParam("oid"));
     socket.onopen = function () {
         socket.send("hello world!!!");
-    }
+    };
     socket.onmessage = function (result) {
         console.log(result.data);
-    }
+    };
 </script>
 </html>
