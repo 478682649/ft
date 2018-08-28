@@ -1,7 +1,8 @@
 package com.guazi.ft.websocket;
 
 import com.guazi.ft.common.JsonUtil;
-import lombok.Data;
+import com.guazi.ft.common.SpringContextUtil;
+import com.guazi.ft.service.GoodsService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -16,7 +17,6 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author shichunyang
  */
 @Slf4j
-@Data
 @Component
 @ServerEndpoint(value = "/order/socket/{oid}")
 public class OrderWebSocket {
@@ -43,7 +43,9 @@ public class OrderWebSocket {
 
     @OnMessage
     public void onMessage(Session session, String message) {
-        sendMessage(session, message + ", oid==>" + ORDER_WEB_SOCKET.get(session));
+        log.info("client==>{}, oid==>{}, msg==>{}", session, ORDER_WEB_SOCKET.get(session), message);
+        GoodsService goodsService = SpringContextUtil.getBean(GoodsService.class);
+        sendMessage(session, JsonUtil.object2Json(goodsService.get(ORDER_WEB_SOCKET.get(session))));
     }
 
     public static void sendMessage(Session session, String message) {
