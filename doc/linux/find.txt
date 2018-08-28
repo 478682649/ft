@@ -24,3 +24,6 @@
 # grep -in "Multiuser" /etc/inittab (查找文件内容并忽略大小写)
 # grep -vn "^#" /etc/inittab (查看文件并排除注释)
 
+#统计访问平均时长
+grep 'url==>http://127.0.0.1/add' sql.txt  | grep -aoP '(?<=cost==>)\d+' | awk '{a++; b+=$1} END {print a, b, b/a}'
+
