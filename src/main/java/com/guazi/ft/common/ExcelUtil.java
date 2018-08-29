@@ -55,8 +55,10 @@ public class ExcelUtil {
                 List<Map<String, Object>> tempList = partitions.get(m);
                 // 向sheet页中添加数据
                 for (int i = 0; i < tempList.size(); i++) {
+                    Map<String, Object> tempMap = tempList.get(i);
+
                     for (int j = 0; j < columnChs.size(); j++) {
-                        Object data = tempList.get(i).get(columnChs.get(j));
+                        Object data = tempMap.get(columnChs.get(j));
 
                         if (data != null && data instanceof Date) {
                             // 处理日期类型
