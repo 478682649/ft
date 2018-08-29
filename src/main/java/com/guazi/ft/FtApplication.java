@@ -143,20 +143,25 @@ public class FtApplication {
 
         String sheetTitle = "人员信息";
 
-        String[] columnChs = {"姓名", "年龄", "日期"};
-        String[] columnEns = {"username", "age", "date"};
-
-        Map<String, Object> scy = new HashMap<>(16);
-        scy.put(columnEns[0], "史春阳");
-        scy.put(columnEns[1], "28");
-        scy.put(columnEns[2], new Date());
+        String nameKey = "姓名";
+        String ageKey = "年龄";
+        String dateKey = "日期";
+        List<String> columnChs = Arrays.asList(nameKey, ageKey, dateKey);
 
         List<Map<String, Object>> dataList = new ArrayList<>();
-        dataList.add(scy);
+
+        int target = 100;
+        int limit = 10;
+        for (int i = 0; i < target; i++) {
+            Map<String, Object> scy = new HashMap<>(16);
+            scy.put(nameKey, "史春阳");
+            scy.put(ageKey, i + 1);
+            scy.put(dateKey, new Date());
+            dataList.add(scy);
+        }
 
         ByteArrayOutputStream excelOut = new ByteArrayOutputStream();
-        ExcelUtil.createExcel(excelOut, sheetTitle, columnChs, columnEns, dataList);
-
+        ExcelUtil.createExcel(excelOut, sheetTitle, columnChs, dataList, limit);
 
         ByteArrayOutputStream jpegOut = new ByteArrayOutputStream();
         InputStream jpegIn = new FileInputStream("/Users/shichunyang/Downloads/monster.jpeg");
