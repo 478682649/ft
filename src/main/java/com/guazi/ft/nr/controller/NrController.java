@@ -1,6 +1,7 @@
 package com.guazi.ft.nr.controller;
 
 import com.guazi.ft.cloud.RemoteService;
+import com.guazi.ft.common.ExcelUtil;
 import com.guazi.ft.common.JsonUtil;
 import com.guazi.ft.dao.consign.model.UserDO;
 import com.guazi.ft.nr.controller.model.ValidParent;
@@ -8,8 +9,11 @@ import com.guazi.ft.websocket.OrderWebSocket;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Date;
 
 /**
@@ -51,5 +55,27 @@ public class NrController {
     ) {
         OrderWebSocket.ORDER_WEB_SOCKET.entrySet().stream().filter(entry -> entry.getValue().equals(oid)).forEach(entry -> OrderWebSocket.sendMessage(entry.getKey(), msg));
         return "success";
+    }
+
+    @PostMapping("/upload")
+    public String upload(
+            @RequestParam String username,
+            @RequestParam MultipartFile excel
+    ) {
+        InputStream in = null;
+        try {
+            in = excel.getInputStream();
+            return JsonUtil.object2Json(ExcelUtil.readExcel(in, false));
+        } catch (Exception e) {
+            return "error";
+        } finally {
+            if (in != null) {
+                try {
+                    in.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 }

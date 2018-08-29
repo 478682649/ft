@@ -587,7 +587,21 @@ public class HttpUtil {
         return ip;
     }
 
-    public static void main(String[] args) {
-
+    public static void main(String[] args) throws Exception {
+        String url = "http://localhost:9001/upload";
+        Map<String, String> textMap = new HashMap<String, String>(16) {
+            {
+                put("username", "史春阳");
+            }
+        };
+        Map<String, Object[]> fileMap = new HashMap<String, Object[]>(16) {
+            {
+                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                IOUtils.copy(new FileInputStream("/Users/shichunyang/person.xls"), byteArrayOutputStream);
+                Object[] args = {"史春阳excel.xls", new ByteArrayInputStream(byteArrayOutputStream.toByteArray())};
+                put("excel", args);
+            }
+        };
+        System.out.println(upload(url, textMap, fileMap, null, DEFAULT_RESPONSE_CHARSET, null));
     }
 }
