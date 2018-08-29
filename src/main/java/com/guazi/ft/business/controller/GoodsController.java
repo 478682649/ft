@@ -6,6 +6,8 @@ import com.guazi.ft.common.Page;
 import com.guazi.ft.dao.consign.model.vo.GoodsVO;
 import com.guazi.ft.rest.RestResult;
 import com.guazi.ft.service.GoodsService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +21,7 @@ import java.util.Map;
  *
  * @author shichunyang
  */
+@Api(tags = "商品API")
 @RestController
 @RequestMapping(RestResult.API + "/goods")
 @CrossOrigin
@@ -28,6 +31,7 @@ public class GoodsController {
     @Autowired
     private GoodsService goodsService;
 
+    @ApiOperation("根据id查询商品信息")
     /**
      * 根据id查询商品信息
      *
@@ -40,6 +44,7 @@ public class GoodsController {
         return JsonUtil.object2Json(RestResult.getSuccessRestResult(goodsService.get(id)));
     }
 
+    @ApiOperation("修改商品信息")
     /**
      * 修改商品信息
      *
@@ -58,6 +63,7 @@ public class GoodsController {
         return JsonUtil.object2Json(RestResult.getSuccessRestResult(goodsService.update(id, name, categoryId)));
     }
 
+    @ApiOperation("添加商品信息")
     /**
      * 添加商品信息
      *
@@ -74,6 +80,7 @@ public class GoodsController {
         return JsonUtil.object2Json(RestResult.getSuccessRestResult(goodsService.add(name, categoryId)));
     }
 
+    @ApiOperation("分页查询商品")
     /**
      * 分页查询商品
      *
@@ -101,6 +108,7 @@ public class GoodsController {
         return JsonUtil.object2Json(RestResult.getSuccessRestResult(result));
     }
 
+    @ApiOperation("根据分类查询所有商品")
     /**
      * 根据分类查询所有商品
      *

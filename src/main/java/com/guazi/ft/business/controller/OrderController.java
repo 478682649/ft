@@ -10,6 +10,8 @@ import com.guazi.ft.dao.consign.model.dto.OrderDTO;
 import com.guazi.ft.dao.consign.model.vo.OrderVO;
 import com.guazi.ft.rest.RestResult;
 import com.guazi.ft.service.OrderService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +26,7 @@ import java.util.Map;
  *
  * @author shichunyang
  */
+@Api(tags = "订单API")
 @RestController
 @CrossOrigin
 @RequestMapping(RestResult.API + "/order")
@@ -33,6 +36,7 @@ public class OrderController {
     @Autowired
     private OrderService orderService;
 
+    @ApiOperation("分页查询订单信息")
     /**
      * 分页查询订单信息
      *
@@ -81,6 +85,7 @@ public class OrderController {
         return JsonUtil.object2Json(RestResult.getSuccessRestResult(result));
     }
 
+    @ApiOperation("获取某个订单信息")
     /**
      * 获取某个订单信息
      *
@@ -93,6 +98,7 @@ public class OrderController {
         return JsonUtil.object2Json(RestResult.getSuccessRestResult(orderService.get(id)));
     }
 
+    @ApiOperation("查询订单项")
     /**
      * 查询订单项
      *
@@ -105,6 +111,7 @@ public class OrderController {
         return JsonUtil.object2Json(RestResult.getSuccessRestResult(orderService.listItems(id)));
     }
 
+    @ApiOperation("添加订单信息")
     /**
      * 添加订单信息
      *
@@ -137,6 +144,7 @@ public class OrderController {
         return JsonUtil.object2Json(RestResult.getSuccessRestResult(flag));
     }
 
+    @ApiOperation("修改订单")
     /**
      * 修改订单
      *
@@ -177,6 +185,7 @@ public class OrderController {
         return JsonUtil.object2Json(RestResult.getSuccessRestResult(flag));
     }
 
+    @ApiOperation("添加订单项")
     /**
      * 添加订单项
      *
@@ -196,6 +205,7 @@ public class OrderController {
         return JsonUtil.object2Json(RestResult.getSuccessRestResult(flag));
     }
 
+    @ApiOperation("删除订单项")
     /**
      * 删除订单项目
      *
@@ -212,6 +222,7 @@ public class OrderController {
         return JsonUtil.object2Json(RestResult.getSuccessRestResult(flag));
     }
 
+    @ApiOperation("修改订单项")
     /**
      * 修改订单项
      *
@@ -230,6 +241,7 @@ public class OrderController {
         return JsonUtil.object2Json(RestResult.getSuccessRestResult(flag));
     }
 
+    @ApiOperation("确认订单")
     /**
      * 确认订单
      *
@@ -247,6 +259,7 @@ public class OrderController {
         return JsonUtil.object2Json(RestResult.getSuccessRestResult(flag));
     }
 
+    @ApiOperation("确认订单成功")
     /**
      * 确认订单成功
      *
@@ -263,6 +276,7 @@ public class OrderController {
         return JsonUtil.object2Json(RestResult.getSuccessRestResult(flag));
     }
 
+    @ApiOperation("确认订单失败")
     /**
      * 确认订单失败
      *

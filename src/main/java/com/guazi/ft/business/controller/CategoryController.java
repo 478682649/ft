@@ -28,6 +28,7 @@ public class CategoryController {
     @Autowired
     private CategoryService categoryService;
 
+    @ApiOperation("查询所有分类信息")
     /**
      * 查询所有分类信息
      *
@@ -39,6 +40,7 @@ public class CategoryController {
         return JsonUtil.object2Json(RestResult.getSuccessRestResult(categoryService.listAll()));
     }
 
+    @ApiOperation("添加分类信息")
     /**
      * 添加分类信息
      *
@@ -87,6 +89,7 @@ public class CategoryController {
         return JsonUtil.object2Json(RestResult.getSuccessRestResult(result));
     }
 
+    @ApiOperation("根据id查询分类信息")
     /**
      * 根据主键查询分类信息
      *

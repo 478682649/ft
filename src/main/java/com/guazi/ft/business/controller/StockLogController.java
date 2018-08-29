@@ -8,6 +8,8 @@ import com.guazi.ft.dao.consign.model.StockLogDO;
 import com.guazi.ft.dao.consign.model.dto.StockLogDTO;
 import com.guazi.ft.rest.RestResult;
 import com.guazi.ft.service.StockLogService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +23,7 @@ import java.util.Map;
  *
  * @author shichunyang
  */
+@Api(tags = "出入库API")
 @RestController
 @CrossOrigin
 @RequestMapping(RestResult.API + "/stock")
@@ -30,6 +33,7 @@ public class StockLogController {
     @Autowired
     private StockLogService stockLogService;
 
+    @ApiOperation("库存列表")
     @RequestMapping(value = "/list", method = RequestMethod.POST)
     @LoginCheck
     public String list(
@@ -61,6 +65,7 @@ public class StockLogController {
         return JsonUtil.object2Json(RestResult.getSuccessRestResult(result));
     }
 
+    @ApiOperation("出/入库操作")
     @RequestMapping(value = "/storage", method = RequestMethod.POST)
     @LoginCheck
     public String storage(
