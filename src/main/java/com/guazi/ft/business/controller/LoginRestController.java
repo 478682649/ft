@@ -8,6 +8,8 @@ import com.guazi.ft.exception.FtException;
 import com.guazi.ft.redis.base.ValueOperationsCache;
 import com.guazi.ft.rest.RestResult;
 import com.guazi.ft.service.LoginService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -25,6 +27,7 @@ import java.util.Map;
  *
  * @author shichunyang
  */
+@Api(tags = "登陆API")
 @RestController
 @Slf4j
 @CrossOrigin
@@ -40,6 +43,7 @@ public class LoginRestController {
     @Value("${cookieDomain}")
     private String cookieDomain;
 
+    @ApiOperation("登录")
     /**
      * 登录
      *
@@ -76,6 +80,7 @@ public class LoginRestController {
         return JsonUtil.object2Json(RestResult.getSuccessRestResult(result));
     }
 
+    @ApiOperation("图片验证码")
     /**
      * 图片验证码
      */
@@ -97,6 +102,7 @@ public class LoginRestController {
         return JsonUtil.object2Json(RestResult.getSuccessRestResult(result));
     }
 
+    @ApiOperation("查询当前登录用户信息")
     /**
      * 查询当前登录用户信息
      *
