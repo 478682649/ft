@@ -1,13 +1,17 @@
 package com.guazi.ft.common;
 
 import com.google.common.collect.Lists;
+import jxl.Cell;
+import jxl.Sheet;
 import jxl.Workbook;
 import jxl.write.Label;
 import jxl.write.WritableSheet;
 import jxl.write.WritableWorkbook;
 import lombok.extern.slf4j.Slf4j;
 
+import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -86,6 +90,46 @@ public class ExcelUtil {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+            }
+        }
+    }
+
+    /**
+     * 读取Excel
+     *
+     * @param in 输入流
+     * @return 解析后的文本
+     */
+    public static List<String> readExcel(InputStream in, boolean ignoreHeader) {
+        List<String> result = new ArrayList<>();
+        Workbook workbook = null;
+        try {
+            workbook = Workbook.getWorkbook(in);
+            Sheet sheet = workbook.getSheet(0);
+
+            int start = 0;
+            if (ignoreHeader) {
+                start = 1;
+            }
+
+            // 忽略header
+            for (int i = start; i < sheet.getRows(); i++) {
+                StringBuilder sb = new StringBuilder();
+                for (int j = 0; j < sheet.getColumns(); j++) {
+                    Cell cell = sheet.getCell(j, i);
+                    sb.append(cell.getContents()).append(",");
+                }
+                if (sb.length() > 0) {
+                    result.add(sb.substring(0, sb.length() - 1));
+                }
+            }
+            return result;
+        } catch (Exception e) {
+            log.error("读取Excel exception==>{}", JsonUtil.object2Json(e), e);
+            return new ArrayList<>();
+        } finally {
+            if (workbook != null) {
+                workbook.close();
             }
         }
     }
