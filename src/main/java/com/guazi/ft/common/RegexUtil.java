@@ -27,7 +27,6 @@ public class RegexUtil {
     public static final String CELL_PHONE = "(\\d{3})\\d{4}(\\d{4})";
 
     public static Map<String, String> urlParamSplit(String param) {
-
         if (param == null || param.trim().isEmpty()) {
             return null;
         }

@@ -56,7 +56,6 @@ public class RsaUtil {
      * @return 签名值
      */
     public static String getSign(String data, String privateKey) {
-
         try {
             PKCS8EncodedKeySpec pkcs8EncodedKeySpec = new PKCS8EncodedKeySpec(Base64.getDecoder().decode(privateKey));
             KeyFactory keyFactory = KeyFactory.getInstance(SIGN_TYPE);
@@ -71,7 +70,6 @@ public class RsaUtil {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         return null;
     }
 
@@ -98,7 +96,6 @@ public class RsaUtil {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         return false;
     }
 
@@ -106,7 +103,6 @@ public class RsaUtil {
      * 生成密钥对(公钥和私钥)
      */
     public static Map<String, Object> getKeyMap() throws Exception {
-
         KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance(SIGN_TYPE);
         keyPairGenerator.initialize(2048);
 
@@ -128,7 +124,6 @@ public class RsaUtil {
      * @param keyMap 密钥对
      */
     public static String getPrivateKey(Map<String, Object> keyMap) throws Exception {
-
         Key key = (Key) keyMap.get(PRIVATE_KEY);
 
         return Base64.getEncoder().encodeToString(key.getEncoded());
@@ -140,7 +135,6 @@ public class RsaUtil {
      * @param keyMap 密钥对
      */
     public static String getPublicKey(Map<String, Object> keyMap) throws Exception {
-
         Key key = (Key) keyMap.get(PUBLIC_KEY);
 
         return Base64.getEncoder().encodeToString(key.getEncoded());
@@ -176,7 +170,6 @@ public class RsaUtil {
     }
 
     public static void main(String[] args) throws Exception {
-
         Map<String, Object> keyMap = RsaUtil.getKeyMap();
 
         String privateKey = RsaUtil.getPrivateKey(keyMap);
