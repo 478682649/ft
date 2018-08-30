@@ -12,12 +12,12 @@ import java.util.Date;
 @Data
 public class ItemDO {
 
-    private Long id;
-    private String orderId;
-    private Long goodsId;
-    private Integer goodsNumber;
-    private Date createdAt;
-    private Date updatedAt;
+	private Long id;
+	private String orderId;
+	private Long goodsId;
+	private Integer goodsNumber;
+	private Date createdAt;
+	private Date updatedAt;
 }
 /*
     CREATE TABLE `item` (

@@ -6,8 +6,8 @@ package com.guazi.ft.config.profile;
  * @author shichunyang
  */
 public class DevProFile implements ProFile {
-    @Override
-    public String proFile() {
-        return "dev环境";
-    }
+	@Override
+	public String proFile() {
+		return "dev环境";
+	}
 }

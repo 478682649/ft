@@ -12,6 +12,6 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 @Data
 public class GoodsDTO extends GoodsDO {
-    private Integer startRow;
-    private Integer pageSize;
+	private Integer startRow;
+	private Integer pageSize;
 }

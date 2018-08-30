@@ -14,17 +14,17 @@ import javax.sql.DataSource;
 @Configuration
 public class QueryRunnerConfig {
 
-    @Bean
-    public TxDataSourcePool txDataSourcePool(@Qualifier("consignDataSource") DataSource dataSource) {
-        TxDataSourcePool txDataSourcePool = new TxDataSourcePool();
-        txDataSourcePool.setDataSource(dataSource);
-        return txDataSourcePool;
-    }
+	@Bean
+	public TxDataSourcePool txDataSourcePool(@Qualifier("consignDataSource") DataSource dataSource) {
+		TxDataSourcePool txDataSourcePool = new TxDataSourcePool();
+		txDataSourcePool.setDataSource(dataSource);
+		return txDataSourcePool;
+	}
 
-    @Bean
-    public TxQueryRunner txQueryRunner(TxDataSourcePool txDataSourcePool) {
-        TxQueryRunner txQueryRunner = new TxQueryRunner();
-        txQueryRunner.setTxDataSourcePool(txDataSourcePool);
-        return txQueryRunner;
-    }
+	@Bean
+	public TxQueryRunner txQueryRunner(TxDataSourcePool txDataSourcePool) {
+		TxQueryRunner txQueryRunner = new TxQueryRunner();
+		txQueryRunner.setTxDataSourcePool(txDataSourcePool);
+		return txQueryRunner;
+	}
 }

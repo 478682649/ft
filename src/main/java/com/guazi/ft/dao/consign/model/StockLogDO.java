@@ -12,46 +12,46 @@ import java.util.Date;
 @Data
 public class StockLogDO {
 
-    /**
-     * 主键
-     */
-    private Long id;
-    /**
-     * 操作人
-     */
-    private Long operator;
-    /**
-     * 类型
-     */
-    private Short type;
-    /**
-     * 详细操作类型
-     */
-    private Short typeDetail;
-    /**
-     * 商品id
-     */
-    private Long goodsId;
-    /**
-     * 商品数量
-     */
-    private Integer goodsNumber;
-    /**
-     * 订单号
-     */
-    private String orderId;
-    /**
-     * 备注
-     */
-    private String remark;
-    /**
-     * 创建时间
-     */
-    private Date createdAt;
-    /**
-     * 修改时间
-     */
-    private Date updatedAt;
+	/**
+	 * 主键
+	 */
+	private Long id;
+	/**
+	 * 操作人
+	 */
+	private Long operator;
+	/**
+	 * 类型
+	 */
+	private Short type;
+	/**
+	 * 详细操作类型
+	 */
+	private Short typeDetail;
+	/**
+	 * 商品id
+	 */
+	private Long goodsId;
+	/**
+	 * 商品数量
+	 */
+	private Integer goodsNumber;
+	/**
+	 * 订单号
+	 */
+	private String orderId;
+	/**
+	 * 备注
+	 */
+	private String remark;
+	/**
+	 * 创建时间
+	 */
+	private Date createdAt;
+	/**
+	 * 修改时间
+	 */
+	private Date updatedAt;
 }
 /*
     CREATE TABLE `stock_log` (

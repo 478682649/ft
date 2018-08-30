@@ -13,16 +13,16 @@ import lombok.EqualsAndHashCode;
 @Data
 public class StockLogVO extends StockLogDO {
 
-    /**
-     * 操作人姓名
-     */
-    private String operatorName;
-    /**
-     * 类型中文
-     */
-    private String typeCH;
-    /**
-     * 商品名称
-     */
-    private String goodsName;
+	/**
+	 * 操作人姓名
+	 */
+	private String operatorName;
+	/**
+	 * 类型中文
+	 */
+	private String typeCH;
+	/**
+	 * 商品名称
+	 */
+	private String goodsName;
 }

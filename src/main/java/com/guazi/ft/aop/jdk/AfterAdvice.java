@@ -7,7 +7,7 @@ package com.guazi.ft.aop.jdk;
  */
 public class AfterAdvice {
 
-    public void after() {
-        System.out.println("后置通知");
-    }
+	public void after() {
+		System.out.println("后置通知");
+	}
 }

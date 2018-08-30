@@ -22,23 +22,23 @@ import javax.servlet.http.HttpServletRequest;
 @Slf4j
 public class LoginAop {
 
-    @Before(value = "@annotation(com.guazi.ft.aop.login.LoginCheck)")
-    public void before() {
+	@Before(value = "@annotation(com.guazi.ft.aop.login.LoginCheck)")
+	public void before() {
 
-        // 获取request对象
-        ServletRequestAttributes attributes =
-                (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-        HttpServletRequest request = attributes.getRequest();
-        String ip = HttpUtil.getIpAddress(request);
+		// 获取request对象
+		ServletRequestAttributes attributes =
+				(ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+		HttpServletRequest request = attributes.getRequest();
+		String ip = HttpUtil.getIpAddress(request);
 
-        String referer = request.getHeader("REFERER");
-        String target = "swagger-ui.html";
-        if (!StringUtil.isNull(referer) && referer.contains(target)) {
-            log.info("ip==>{}, url==>{}, swagger request", ip, request.getRequestURL());
-        }
+		String referer = request.getHeader("REFERER");
+		String target = "swagger-ui.html";
+		if (!StringUtil.isNull(referer) && referer.contains(target)) {
+			log.info("ip==>{}, url==>{}, swagger request", ip, request.getRequestURL());
+		}
 
-        UserDO userDO = LoginUtil.getLoginUser(request);
+		UserDO userDO = LoginUtil.getLoginUser(request);
 
-        log.info("ip==>{}, url==>{}, login_token 验证通过, user==>{}", ip, request.getRequestURL(), JsonUtil.object2Json(userDO));
-    }
+		log.info("ip==>{}, url==>{}, login_token 验证通过, user==>{}", ip, request.getRequestURL(), JsonUtil.object2Json(userDO));
+	}
 }

@@ -12,35 +12,35 @@ import java.util.Date;
 @Data
 public class GoodsDO {
 
-    /**
-     * 主键
-     */
-    private Long id;
+	/**
+	 * 主键
+	 */
+	private Long id;
 
-    /**
-     * 商品名称
-     */
-    private String name;
+	/**
+	 * 商品名称
+	 */
+	private String name;
 
-    /**
-     * 商品库存数量
-     */
-    private Integer number;
+	/**
+	 * 商品库存数量
+	 */
+	private Integer number;
 
-    /**
-     * 商品分类
-     */
-    private Short category;
+	/**
+	 * 商品分类
+	 */
+	private Short category;
 
-    /**
-     * 创建时间
-     */
-    private Date createdAt;
+	/**
+	 * 创建时间
+	 */
+	private Date createdAt;
 
-    /**
-     * 修改时间
-     */
-    private Date updatedAt;
+	/**
+	 * 修改时间
+	 */
+	private Date updatedAt;
 }
 /*
     CREATE TABLE `goods` (

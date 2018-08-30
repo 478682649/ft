@@ -11,13 +11,13 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class RemoteServiceFallbackFactory implements FallbackFactory<RemoteService> {
-    @Override
-    public RemoteService create(Throwable throwable) {
-        return new RemoteService() {
-            @Override
-            public String user(UserDO userDO) {
-                return "feign down";
-            }
-        };
-    }
+	@Override
+	public RemoteService create(Throwable throwable) {
+		return new RemoteService() {
+			@Override
+			public String user(UserDO userDO) {
+				return "feign down";
+			}
+		};
+	}
 }

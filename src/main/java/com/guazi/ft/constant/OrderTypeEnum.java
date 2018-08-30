@@ -12,38 +12,38 @@ import java.util.stream.Stream;
  */
 public enum OrderTypeEnum {
 
-    /**
-     * 订单准备中
-     */
-    READY(OrderConstant.STATUS_READY, OrderConstant.STATUS_MAP.get(OrderConstant.STATUS_READY)),
-    CONFIRM(OrderConstant.STATUS_CONFIRM, OrderConstant.STATUS_MAP.get(OrderConstant.STATUS_CONFIRM)),
-    SUCCESS(OrderConstant.STATUS_SUCCESS, OrderConstant.STATUS_MAP.get(OrderConstant.STATUS_SUCCESS)),
-    FAIL(OrderConstant.STATUS_FAIL, OrderConstant.STATUS_MAP.get(OrderConstant.STATUS_FAIL)),
-    UNKNOWN((short) -1, "未知订单状态");
+	/**
+	 * 订单准备中
+	 */
+	READY(OrderConstant.STATUS_READY, OrderConstant.STATUS_MAP.get(OrderConstant.STATUS_READY)),
+	CONFIRM(OrderConstant.STATUS_CONFIRM, OrderConstant.STATUS_MAP.get(OrderConstant.STATUS_CONFIRM)),
+	SUCCESS(OrderConstant.STATUS_SUCCESS, OrderConstant.STATUS_MAP.get(OrderConstant.STATUS_SUCCESS)),
+	FAIL(OrderConstant.STATUS_FAIL, OrderConstant.STATUS_MAP.get(OrderConstant.STATUS_FAIL)),
+	UNKNOWN((short) -1, "未知订单状态");
 
-    private Short status;
-    private String message;
+	private Short status;
+	private String message;
 
-    OrderTypeEnum(short status, String message) {
-        this.status = status;
-        this.message = message;
-    }
+	OrderTypeEnum(short status, String message) {
+		this.status = status;
+		this.message = message;
+	}
 
-    public static OrderTypeEnum get(short status) {
-        return Stream.of(OrderTypeEnum.values())
-                .filter(orderType -> orderType.status.equals(status)).findFirst().orElse(UNKNOWN);
-    }
+	public static OrderTypeEnum get(short status) {
+		return Stream.of(OrderTypeEnum.values())
+				.filter(orderType -> orderType.status.equals(status)).findFirst().orElse(UNKNOWN);
+	}
 
-    public Short getStatus() {
-        return status;
-    }
+	public Short getStatus() {
+		return status;
+	}
 
-    public String getMessage() {
-        return message;
-    }
+	public String getMessage() {
+		return message;
+	}
 
-    @Override
-    public String toString() {
-        return JsonUtil.object2Json(ImmutableMap.of(this.status, this.message));
-    }
+	@Override
+	public String toString() {
+		return JsonUtil.object2Json(ImmutableMap.of(this.status, this.message));
+	}
 }

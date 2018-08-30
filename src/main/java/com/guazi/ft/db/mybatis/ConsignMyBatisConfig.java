@@ -21,32 +21,32 @@ import javax.sql.DataSource;
 @MapperScan(basePackages = {"com.guazi.ft.dao.consign"}, sqlSessionFactoryRef = "consignSqlSessionFactory")
 public class ConsignMyBatisConfig {
 
-    private final DataSource consignDataSource;
+	private final DataSource consignDataSource;
 
-    @Autowired
-    public ConsignMyBatisConfig(@Qualifier("consignDataSource") DataSource consignDataSource) {
-        this.consignDataSource = consignDataSource;
-    }
+	@Autowired
+	public ConsignMyBatisConfig(@Qualifier("consignDataSource") DataSource consignDataSource) {
+		this.consignDataSource = consignDataSource;
+	}
 
-    @Bean("consignSqlSessionFactory")
-    public SqlSessionFactory consignSqlSessionFactory() {
-        SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
-        sqlSessionFactoryBean.setDataSource(consignDataSource);
-        // 用于主从分离
-        sqlSessionFactoryBean.setPlugins(new Interceptor[]{new AutoSwitchDatasourceInterceptor()});
+	@Bean("consignSqlSessionFactory")
+	public SqlSessionFactory consignSqlSessionFactory() {
+		SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
+		sqlSessionFactoryBean.setDataSource(consignDataSource);
+		// 用于主从分离
+		sqlSessionFactoryBean.setPlugins(new Interceptor[]{new AutoSwitchDatasourceInterceptor()});
 
-        try {
-            SqlSessionFactory sqlSessionFactory = sqlSessionFactoryBean.getObject();
-            MybatisUtil.initSqlSessionFactory(sqlSessionFactory);
-            return sqlSessionFactory;
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new RuntimeException("consignSqlSessionFactory fail");
-        }
-    }
+		try {
+			SqlSessionFactory sqlSessionFactory = sqlSessionFactoryBean.getObject();
+			MybatisUtil.initSqlSessionFactory(sqlSessionFactory);
+			return sqlSessionFactory;
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new RuntimeException("consignSqlSessionFactory fail");
+		}
+	}
 
-    @Bean("consignSqlSessionTemplate")
-    public SqlSessionTemplate consignSqlSessionTemplate(@Qualifier("consignSqlSessionFactory") SqlSessionFactory consignSqlSessionFactory) {
-        return new SqlSessionTemplate(consignSqlSessionFactory);
-    }
+	@Bean("consignSqlSessionTemplate")
+	public SqlSessionTemplate consignSqlSessionTemplate(@Qualifier("consignSqlSessionFactory") SqlSessionFactory consignSqlSessionFactory) {
+		return new SqlSessionTemplate(consignSqlSessionFactory);
+	}
 }

@@ -13,5 +13,5 @@ import lombok.EqualsAndHashCode;
 @Data
 public class GoodsVO extends GoodsDO {
 
-    private String categoryName;
+	private String categoryName;
 }

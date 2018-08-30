@@ -13,20 +13,20 @@ import javax.sql.DataSource;
  */
 public class FtDataSourceTransactionManager extends DataSourceTransactionManager {
 
-    public FtDataSourceTransactionManager(DataSource dataSource) {
-        super(dataSource);
-    }
+	public FtDataSourceTransactionManager(DataSource dataSource) {
+		super(dataSource);
+	}
 
-    @Override
-    protected void doBegin(Object transaction, TransactionDefinition definition) {
-        // 事务环境下切换至主库
-        DataSourceHolder.setDataSourceKey(com.guazi.ft.db.annotation.DataSource.master);
-        super.doBegin(transaction, definition);
-    }
+	@Override
+	protected void doBegin(Object transaction, TransactionDefinition definition) {
+		// 事务环境下切换至主库
+		DataSourceHolder.setDataSourceKey(com.guazi.ft.db.annotation.DataSource.master);
+		super.doBegin(transaction, definition);
+	}
 
-    @Override
-    protected void doCleanupAfterCompletion(Object transaction) {
-        super.doCleanupAfterCompletion(transaction);
-        DataSourceHolder.clearDataSourceKey();
-    }
+	@Override
+	protected void doCleanupAfterCompletion(Object transaction) {
+		super.doCleanupAfterCompletion(transaction);
+		DataSourceHolder.clearDataSourceKey();
+	}
 }

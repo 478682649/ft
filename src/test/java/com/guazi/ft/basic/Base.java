@@ -9,10 +9,10 @@ import java.lang.reflect.ParameterizedType;
  */
 public abstract class Base<T> {
 
-    public Base() {
-        // 获取子类传递的参数化类型
-        Class beanClass = (Class) ((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments()[0];
+	public Base() {
+		// 获取子类传递的参数化类型
+		Class beanClass = (Class) ((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments()[0];
 
-        System.out.println(beanClass.getName());
-    }
+		System.out.println(beanClass.getName());
+	}
 }

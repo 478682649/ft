@@ -12,17 +12,17 @@ import java.lang.annotation.*;
 @Inherited
 @Documented
 public @interface RedisCache {
-    /**
-     * 缓存数据Key
-     *
-     * @return key
-     */
-    String key() default "";
+	/**
+	 * 缓存数据Key
+	 *
+	 * @return key
+	 */
+	String key() default "";
 
-    /**
-     * 缓存数据有效期, -1表示永久有效
-     *
-     * @return 过期时间
-     */
-    long timeout() default 300_000;
+	/**
+	 * 缓存数据有效期, -1表示永久有效
+	 *
+	 * @return 过期时间
+	 */
+	long timeout() default 300_000;
 }

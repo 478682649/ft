@@ -11,18 +11,18 @@ import java.util.List;
  */
 public interface CategoryService {
 
-    /**
-     * 查询所有分类
-     *
-     * @return 所有分类信息
-     */
-    List<CategoryDO> listAll();
+	/**
+	 * 查询所有分类
+	 *
+	 * @return 所有分类信息
+	 */
+	List<CategoryDO> listAll();
 
-    /**
-     * 根据id查找分类信息
-     *
-     * @param id 分类id
-     * @return 分类信息
-     */
-    CategoryDO get(short id);
+	/**
+	 * 根据id查找分类信息
+	 *
+	 * @param id 分类id
+	 * @return 分类信息
+	 */
+	CategoryDO get(short id);
 }

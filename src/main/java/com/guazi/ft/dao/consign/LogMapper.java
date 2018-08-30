@@ -14,12 +14,12 @@ import org.springframework.stereotype.Component;
 @Mapper
 public interface LogMapper {
 
-    /**
-     * 插入日志
-     *
-     * @param log 日志
-     * @return 1:插入成功
-     */
-    @InsertProvider(type = LogSqlProvider.class, method = "insertSelective")
-    int insertSelective(LogDO log);
+	/**
+	 * 插入日志
+	 *
+	 * @param log 日志
+	 * @return 1:插入成功
+	 */
+	@InsertProvider(type = LogSqlProvider.class, method = "insertSelective")
+	int insertSelective(LogDO log);
 }

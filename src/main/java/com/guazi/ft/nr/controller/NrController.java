@@ -26,56 +26,56 @@ import java.util.Date;
 @Slf4j
 public class NrController {
 
-    @Autowired
-    private RemoteService remoteService;
+	@Autowired
+	private RemoteService remoteService;
 
-    @GetMapping("/feign")
-    public String feign() {
-        UserDO user = new UserDO();
-        user.setId(1L);
-        user.setUsername("2");
-        user.setPassword("3");
-        user.setCreatedAt(new Date());
-        user.setUpdatedAt(new Date(System.currentTimeMillis() * 10L));
+	@GetMapping("/feign")
+	public String feign() {
+		UserDO user = new UserDO();
+		user.setId(1L);
+		user.setUsername("2");
+		user.setPassword("3");
+		user.setCreatedAt(new Date());
+		user.setUpdatedAt(new Date(System.currentTimeMillis() * 10L));
 
-        String json = remoteService.user(user);
-        log.info("springCloud==>{}", json);
-        return json;
-    }
+		String json = remoteService.user(user);
+		log.info("springCloud==>{}", json);
+		return json;
+	}
 
-    @PutMapping("/valid-model")
-    public String valid(@RequestBody @Valid ValidParent validParent) {
-        return JsonUtil.object2Json(validParent);
-    }
+	@PutMapping("/valid-model")
+	public String valid(@RequestBody @Valid ValidParent validParent) {
+		return JsonUtil.object2Json(validParent);
+	}
 
-    @PostMapping("/socket/push")
-    public String push(
-            @RequestParam Integer oid,
-            @RequestParam String msg
-    ) {
-        OrderWebSocket.ORDER_WEB_SOCKET.entrySet().stream().filter(entry -> entry.getValue().equals(oid)).forEach(entry -> OrderWebSocket.sendMessage(entry.getKey(), msg));
-        return "success";
-    }
+	@PostMapping("/socket/push")
+	public String push(
+			@RequestParam Integer oid,
+			@RequestParam String msg
+	) {
+		OrderWebSocket.ORDER_WEB_SOCKET.entrySet().stream().filter(entry -> entry.getValue().equals(oid)).forEach(entry -> OrderWebSocket.sendMessage(entry.getKey(), msg));
+		return "success";
+	}
 
-    @PostMapping("/upload")
-    public String upload(
-            @RequestParam String username,
-            @RequestParam MultipartFile excel
-    ) {
-        InputStream in = null;
-        try {
-            in = excel.getInputStream();
-            return JsonUtil.object2Json(ExcelUtil.readExcel(in, false));
-        } catch (Exception e) {
-            return "error";
-        } finally {
-            if (in != null) {
-                try {
-                    in.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
+	@PostMapping("/upload")
+	public String upload(
+			@RequestParam String username,
+			@RequestParam MultipartFile excel
+	) {
+		InputStream in = null;
+		try {
+			in = excel.getInputStream();
+			return JsonUtil.object2Json(ExcelUtil.readExcel(in, false));
+		} catch (Exception e) {
+			return "error";
+		} finally {
+			if (in != null) {
+				try {
+					in.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
 }

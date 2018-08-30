@@ -9,10 +9,10 @@ import lombok.Data;
  */
 @Data
 public class HttpParam {
-    private String url;
-    private String method;
-    private String data;
-    private String responseCharset;
-    private String cookie;
-    private String contentType;
+	private String url;
+	private String method;
+	private String data;
+	private String responseCharset;
+	private String cookie;
+	private String contentType;
 }

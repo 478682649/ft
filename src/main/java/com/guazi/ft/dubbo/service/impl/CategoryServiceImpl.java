@@ -15,42 +15,42 @@ import java.util.List;
  * @author shichunyang
  */
 @Service(
-        application = "ft",
-        registry = {"ftRegistry"},
-        protocol = {"ftProtocol"},
-        delay = -1,
-        executes = 150,
-        actives = 150,
-        timeout = 30_000,
-        version = "1.0.0",
-        group = "A",
-        owner = "scy"
+		application = "ft",
+		registry = {"ftRegistry"},
+		protocol = {"ftProtocol"},
+		delay = -1,
+		executes = 150,
+		actives = 150,
+		timeout = 30_000,
+		version = "1.0.0",
+		group = "A",
+		owner = "scy"
 )
 @Slf4j
 public class CategoryServiceImpl implements CategoryService {
 
-    @Autowired
-    private CategoryMapper categoryMapper;
+	@Autowired
+	private CategoryMapper categoryMapper;
 
-    @Override
-    public List<CategoryDO> listAll() {
-        return categoryMapper.selectAllCategories();
-    }
+	@Override
+	public List<CategoryDO> listAll() {
+		return categoryMapper.selectAllCategories();
+	}
 
-    @Override
-    public CategoryDO get(short id) {
-        try {
-            Thread.sleep(20_000);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+	@Override
+	public CategoryDO get(short id) {
+		try {
+			Thread.sleep(20_000);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
-        CategoryDO categoryDO = categoryMapper.getCategoryById(id);
+		CategoryDO categoryDO = categoryMapper.getCategoryById(id);
 
-        log.info("dubbo调用完毕==>{}", categoryDO);
+		log.info("dubbo调用完毕==>{}", categoryDO);
 
-        categoryDO.setName(categoryDO.getName() + "_" + System.currentTimeMillis());
+		categoryDO.setName(categoryDO.getName() + "_" + System.currentTimeMillis());
 
-        return categoryDO;
-    }
+		return categoryDO;
+	}
 }
