@@ -38,9 +38,7 @@ public class DateUtil {
      * @return 当前系统时间字符串
      */
     public static String getCurrentDateStr() {
-
         SimpleDateFormat dateFormat = new SimpleDateFormat(DEFAULT_DATE_FORMAT);
-
         return dateFormat.format(new Date());
     }
 
@@ -52,11 +50,9 @@ public class DateUtil {
      * @return 转换后的Date对象
      */
     public static Date str2Date(String dateStr, String pattern) {
-
         Date date = null;
 
         SimpleDateFormat dateFormat = new SimpleDateFormat(pattern);
-
         try {
             date = dateFormat.parse(dateStr);
         } catch (ParseException e) {
@@ -84,7 +80,6 @@ public class DateUtil {
      * @return 计算后的新日期
      */
     public static Date getDateAddAmount(Date date, int field, int amount) {
-
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
 
@@ -99,7 +94,6 @@ public class DateUtil {
      * @return 某天开始时间
      */
     public static Date getDayStartTime(Date date) {
-
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
 
@@ -116,7 +110,6 @@ public class DateUtil {
      * @return 某天的结束时间
      */
     public static Date getDayEndTime(Date date) {
-
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
 
@@ -133,7 +126,6 @@ public class DateUtil {
      * @return 月初时间
      */
     public static Date getMonthStartTime(Date date) {
-
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
 
@@ -151,7 +143,6 @@ public class DateUtil {
      * @return 月末时间
      */
     public static Date getMonthEndTime(Date date) {
-
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
 
