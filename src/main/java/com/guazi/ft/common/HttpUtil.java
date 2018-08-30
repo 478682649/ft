@@ -1,8 +1,6 @@
 package com.guazi.ft.common;
 
 import com.guazi.ft.aop.ControllerAspect;
-import com.guazi.ft.exception.FtException;
-import com.guazi.ft.rest.RestResult;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
 
@@ -16,13 +14,12 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Http 工具类
+ * Http工具类
  *
  * @author shichunyang
  */
 @Slf4j
 public class HttpUtil {
-
     /**
      * 代理是否开启
      */
@@ -43,11 +40,11 @@ public class HttpUtil {
     /**
      * 连接超时(毫秒)
      */
-    public static final int CONNECT_TIMEOUT = 30000;
+    public static final int CONNECT_TIMEOUT = 30_000;
     /**
      * 读取超时(毫秒)
      */
-    public static final int READ_TIMEOUT = 30000;
+    public static final int READ_TIMEOUT = 30_000;
 
     /**
      * GET请求方式
@@ -62,51 +59,17 @@ public class HttpUtil {
     public static final String CONTENT_TYPE_JSON = "application/json; charset=UTF-8";
 
     /**
-     * Http Post请求
+     * Post请求
      */
     public static String post(String requestUrl, Map<String, String> paramMap) {
-
-        String paramStr = formatParamMap(paramMap);
-
-        return HttpUtil.httpRequest(requestUrl, POST, paramStr, DEFAULT_RESPONSE_CHARSET, null, CONTENT_TYPE_TEXT);
+        return HttpUtil.httpRequest(requestUrl, POST, CommonUtil.exchangeParams(paramMap), DEFAULT_RESPONSE_CHARSET, null, CONTENT_TYPE_TEXT);
     }
 
     /**
      * GET请求
      */
     public static String get(String requestUrl, Map<String, String> paramMap) {
-
-        String paramStr = formatParamMap(paramMap);
-
-        return HttpUtil.httpRequest(requestUrl + "?" + paramStr, GET, null, DEFAULT_RESPONSE_CHARSET, null, CONTENT_TYPE_TEXT);
-    }
-
-    /**
-     * 将paramMap 格式化成便于传输的健值对字符串
-     *
-     * @param paramMap 健值对map
-     * @return 健值对字符串
-     */
-    public static String formatParamMap(Map<String, String> paramMap) {
-
-        String paramStr = "";
-
-        if (paramMap == null || paramMap.isEmpty()) {
-            return paramStr;
-        }
-
-        StringBuilder sb = new StringBuilder();
-
-        for (Map.Entry<String, String> entry : paramMap.entrySet()) {
-            String key = entry.getKey();
-            String value = entry.getValue();
-
-            sb.append(key).append("=").append(StringUtil.isNull(value) ? "" : value.trim()).append("&");
-        }
-
-        paramStr = sb.substring(0, sb.length() - 1);
-
-        return paramStr;
+        return HttpUtil.httpRequest(requestUrl + "?" + CommonUtil.exchangeParams(paramMap), GET, null, DEFAULT_RESPONSE_CHARSET, null, CONTENT_TYPE_TEXT);
     }
 
     /**
@@ -125,14 +88,8 @@ public class HttpUtil {
             String sessionId,
             String contentType
     ) {
-
         long start = System.currentTimeMillis();
 
-        // 用来装载返回数据
-        StringBuilder sb = new StringBuilder();
-        // 读取的每行数据
-        String resultLine;
-        // 模拟浏览器
         String userAgent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.146 Safari/537.36";
 
         OutputStream out = null;
@@ -140,7 +97,6 @@ public class HttpUtil {
         BufferedReader reader = null;
 
         try {
-
             URL url = new URL(requestUrl);
 
             if (PROXY_FLAG) {
@@ -183,8 +139,6 @@ public class HttpUtil {
 
             if (null != data) {
                 out = connection.getOutputStream();
-
-                //注意编码格式,防止中文乱码
                 out.write(data.getBytes("UTF-8"));
             }
 
@@ -197,11 +151,9 @@ public class HttpUtil {
             String successStart = "2";
             String turnStart = "3";
 
-            long end = System.currentTimeMillis();
-
+            StringBuilder sb = new StringBuilder();
+            String resultLine;
             if (code.startsWith(successStart) || code.startsWith(turnStart)) {
-
-                // 读取返回数据
                 reader = new BufferedReader(new InputStreamReader(connection.getInputStream(), charset));
                 while ((resultLine = reader.readLine()) != null) {
                     sb.append(resultLine);
@@ -210,29 +162,28 @@ public class HttpUtil {
 
                 String result = sb.toString().trim();
 
+                long end = System.currentTimeMillis();
+
                 if (code.startsWith(successStart)) {
                     log.info("http==>{}, param==>{}, cost==>{}ms result==>{}", requestUrl, data, end - start, result);
                     return result;
                 } else {
                     log.error("http==>{}, param==>{}, code==>{}, result==>{}", requestUrl, data, code, result);
-                    throw new FtException(Integer.parseInt(code), result);
+                    return result;
                 }
             } else {
-                // 读取错误信息
                 reader = new BufferedReader(new InputStreamReader(connection.getErrorStream(), charset));
                 while ((resultLine = reader.readLine()) != null) {
                     sb.append(resultLine);
                     sb.append(CommonUtil.LINE_SEPARATOR);
                 }
                 log.error("http==>{}, param==>{}, code==>{}, result==>{}", requestUrl, data, code, sb.toString().trim());
-                throw new FtException(Integer.parseInt(code), sb.toString().trim());
+                return sb.toString().trim();
             }
-
         } catch (Exception e) {
-            log.error("http==>{}, param==>{}, exception==>{}", requestUrl, data, JsonUtil.object2Json(e));
-            throw new FtException(RestResult.ERROR_CODE, requestUrl + ", exception==>" + JsonUtil.object2Json(e));
+            log.error("http==>{}, param==>{}, exception==>{}", requestUrl, data, JsonUtil.object2Json(e), e);
+            return null;
         } finally {
-
             if (reader != null) {
                 try {
                     reader.close();
@@ -240,7 +191,6 @@ public class HttpUtil {
                     e.printStackTrace();
                 }
             }
-
             if (out != null) {
                 try {
                     out.close();
@@ -248,7 +198,6 @@ public class HttpUtil {
                     e.printStackTrace();
                 }
             }
-
             if (connection != null) {
                 connection.disconnect();
             }
@@ -275,12 +224,10 @@ public class HttpUtil {
             String charset,
             String sessionId
     ) {
-
         long start = System.currentTimeMillis();
 
         // 定义上传表单分隔符
         String boundary = "----WebKitFormBoundaryvUCBTEK4dOTNvxM5";
-        // 模拟浏览器
         String userAgent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.146 Safari/537.36";
         // 换行符(多部件上传表单特有)
         String lineSeparator = "\r\n";
@@ -290,7 +237,6 @@ public class HttpUtil {
         BufferedReader reader = null;
 
         try {
-
             URL url = new URL(requestUrl);
 
             if (PROXY_FLAG) {
@@ -301,7 +247,6 @@ public class HttpUtil {
                 connection = (HttpURLConnection) url.openConnection();
             }
 
-            //设置连接访问方法及超时参数
             connection.setRequestMethod(POST);
 
             if (sessionId != null && !sessionId.trim().isEmpty()) {
@@ -329,15 +274,11 @@ public class HttpUtil {
 
             // 普通文本项
             if (textMap != null) {
-
                 StringBuilder textSb = new StringBuilder();
 
-                for (Map.Entry<String, String> entry : textMap.entrySet()) {
-                    String inputName = entry.getKey();
-                    String inputValue = entry.getValue();
-
+                textMap.forEach((inputName, inputValue) -> {
                     if (StringUtil.isNull(inputValue)) {
-                        continue;
+                        inputValue = "";
                     }
 
                     textSb.append(lineSeparator).append("--").append(boundary).append(lineSeparator);
@@ -346,43 +287,38 @@ public class HttpUtil {
                             .append(lineSeparator).append(lineSeparator);
 
                     textSb.append(inputValue);
-                }
+                });
 
                 out.write(textSb.toString().getBytes());
             }
 
             // 文件文本项
             if (fileMap != null) {
-
-                for (Map.Entry<String, Object[]> entry : fileMap.entrySet()) {
-
-                    String inputName = entry.getKey();
-
-                    Object[] fileNameAndInputStreamArr = entry.getValue();
-
+                BufferedOutputStream finalOut = out;
+                fileMap.forEach((inputName, fileNameAndInputStreamArr) -> {
                     String filename = (String) fileNameAndInputStreamArr[0];
-
 
                     String fileSb = lineSeparator + "--" + boundary + lineSeparator +
                             "Content-Disposition: form-data; name=\"" + inputName + "\"; filename=\"" + filename +
                             "\"" + lineSeparator +
                             "Content-Type:" + contentType + lineSeparator + lineSeparator;
 
-                    out.write(fileSb.getBytes());
-
-                    BufferedInputStream in;
-                    in = new BufferedInputStream((ByteArrayInputStream) fileNameAndInputStreamArr[1]);
-
-                    int bytes;
-
-                    byte[] buffer = new byte[1024];
-
-                    while ((bytes = in.read(buffer)) != -1) {
-                        out.write(buffer, 0, bytes);
+                    try {
+                        finalOut.write(fileSb.getBytes());
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
 
-                    in.close();
-                }
+                    try (BufferedInputStream in = new BufferedInputStream((ByteArrayInputStream) fileNameAndInputStreamArr[1])) {
+                        int bytes;
+                        byte[] buffer = new byte[1024];
+                        while ((bytes = in.read(buffer)) != -1) {
+                            finalOut.write(buffer, 0, bytes);
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                });
             }
 
             byte[] endData = (lineSeparator + "--" + boundary + "--" + lineSeparator).getBytes();
@@ -399,11 +335,7 @@ public class HttpUtil {
             String resultLine;
             StringBuilder sb = new StringBuilder();
 
-            long end = System.currentTimeMillis();
-
             if (code.startsWith(successStart) || code.startsWith(turnStart)) {
-
-                // 读取返回数据
                 reader = new BufferedReader(new InputStreamReader(connection.getInputStream(), charset));
                 while ((resultLine = reader.readLine()) != null) {
                     sb.append(resultLine);
@@ -411,6 +343,8 @@ public class HttpUtil {
                 }
 
                 String result = sb.toString().trim();
+
+                long end = System.currentTimeMillis();
 
                 if (code.startsWith(successStart)) {
                     // 返回字节长度
@@ -420,25 +354,21 @@ public class HttpUtil {
                     return result;
                 } else {
                     log.error("http==>{}, code==>{}, result==>{}", requestUrl, code, result);
-                    throw new FtException(Integer.parseInt(code), result);
+                    return result;
                 }
             } else {
-                // 读取错误信息
                 reader = new BufferedReader(new InputStreamReader(connection.getErrorStream(), charset));
                 while ((resultLine = reader.readLine()) != null) {
                     sb.append(resultLine);
                     sb.append(CommonUtil.LINE_SEPARATOR);
                 }
                 log.error("http==>{}, code==>{}, result==>{}", requestUrl, code, sb.toString().trim());
-                throw new FtException(Integer.parseInt(code), sb.toString().trim());
+                return sb.toString().trim();
             }
         } catch (Exception e) {
-
-            log.error("http==>{}, exception==>{}", requestUrl, JsonUtil.object2Json(e));
-
-            throw new FtException(RestResult.ERROR_CODE, requestUrl + ", exception==>" + JsonUtil.object2Json(e));
+            log.error("http==>{}, exception==>{}", requestUrl, JsonUtil.object2Json(e), e);
+            return null;
         } finally {
-
             if (out != null) {
                 try {
                     out.close();
@@ -446,7 +376,6 @@ public class HttpUtil {
                     e.printStackTrace();
                 }
             }
-
             if (reader != null) {
                 try {
                     reader.close();
@@ -454,36 +383,10 @@ public class HttpUtil {
                     e.printStackTrace();
                 }
             }
-
             if (connection != null) {
                 connection.disconnect();
             }
         }
-    }
-
-    /**
-     * 根据ip获取城市信息
-     */
-    public static String getAddressesByIp(String ip) {
-
-        String urlStr = "http://int.dpool.sina.com.cn/iplookup/iplookup.php?ip=" + ip;
-
-        String response = httpRequest(urlStr, "GET", null, "gbk", null, CONTENT_TYPE_TEXT);
-
-        String result = "全国";
-
-        int rightLength = 6;
-        if (!StringUtil.isNull(response)) {
-
-            String[] strArr = response.split("\t");
-
-            if (strArr.length == rightLength) {
-
-                result = strArr[5].trim();
-            }
-        }
-
-        return result;
     }
 
     /**
