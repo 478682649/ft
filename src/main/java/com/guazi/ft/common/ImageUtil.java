@@ -26,7 +26,6 @@ public class ImageUtil {
      * @return 验证码文字
      */
     public static String getImage(OutputStream out) {
-
         ImageIO.setUseCache(false);
 
         String capText = getText(4);
@@ -46,7 +45,6 @@ public class ImageUtil {
      * 随机字符的个数
      */
     private static String getText(int length) {
-
         char[] chars = CHARS.toCharArray();
 
         Random rand = new Random();
@@ -82,7 +80,6 @@ public class ImageUtil {
      * 创建图片缓冲区
      */
     private static BufferedImage createImage(int width, int height, String text) {
-
         BufferedImage bi = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 
         Graphics2D g2 = (Graphics2D) bi.getGraphics();
