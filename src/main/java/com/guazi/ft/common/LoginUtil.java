@@ -24,7 +24,6 @@ public class LoginUtil {
      * @return 用户信息
      */
     public static UserDO getLoginUser(HttpServletRequest request) {
-
         ValueOperationsCache valueOperationsCache = SpringContextUtil.getBean(ValueOperationsCache.class);
 
         String loginToken = getToken(request);
@@ -51,7 +50,6 @@ public class LoginUtil {
      * @return token
      */
     public static String getToken(HttpServletRequest request) {
-
         // 从请求参数中获取
         String loginToken = request.getParameter(LoginConstant.PARAM_LOGIN_TOKEN);
         if (!StringUtil.isEmpty(loginToken)) {
