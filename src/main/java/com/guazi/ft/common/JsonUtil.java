@@ -26,17 +26,14 @@ public class JsonUtil {
      * @return java对象
      */
     public static <T> T json2Object(final String json, final Class<T> clazz) {
-
         try {
-
             JsonMapper mapper = new JsonMapper();
 
             return mapper.readValue(json, clazz);
         } catch (Exception e) {
             e.printStackTrace();
+            return null;
         }
-
-        return null;
     }
 
     public static <T> T json2Object(String json, TypeReference<T> typeReference) {
@@ -56,7 +53,6 @@ public class JsonUtil {
      * @return json字符串
      */
     public static String object2Json(final Object object) {
-
         JsonMapper mapper = new JsonMapper();
 
         try {
@@ -69,7 +65,6 @@ public class JsonUtil {
     }
 
     public static class JsonMapper extends ObjectMapper {
-
         private static final long serialVersionUID = 1L;
 
         static ObjectMapper mapper;
