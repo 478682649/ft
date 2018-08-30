@@ -6,8 +6,8 @@ package com.guazi.ft.config.profile;
  * @author shichunyang
  */
 public class StagProFile implements ProFile {
-    @Override
-    public String proFile() {
-        return "stag环境";
-    }
+	@Override
+	public String proFile() {
+		return "stag环境";
+	}
 }

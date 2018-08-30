@@ -11,62 +11,62 @@ import java.io.Serializable;
  */
 @Data
 public class LogDO implements Serializable {
-    /**
-     * 主键(id)
-     */
-    private Integer id;
+	/**
+	 * 主键(id)
+	 */
+	private Integer id;
 
-    /**
-     * 时间戳(time)
-     */
-    private Long time;
+	/**
+	 * 时间戳(time)
+	 */
+	private Long time;
 
-    /**
-     * 应用名称(application)
-     */
-    private String application;
+	/**
+	 * 应用名称(application)
+	 */
+	private String application;
 
-    /**
-     * 线程名称(thread)
-     */
-    private String thread;
+	/**
+	 * 线程名称(thread)
+	 */
+	private String thread;
 
-    /**
-     * 级别(level)
-     */
-    private String level;
+	/**
+	 * 级别(level)
+	 */
+	private String level;
 
-    /**
-     * 日志类名(logger)
-     */
-    private String logger;
+	/**
+	 * 日志类名(logger)
+	 */
+	private String logger;
 
-    /**
-     * 方法名称(method)
-     */
-    private String method;
+	/**
+	 * 方法名称(method)
+	 */
+	private String method;
 
-    /**
-     * 行号(line_number)
-     */
-    private Integer lineNumber;
+	/**
+	 * 行号(line_number)
+	 */
+	private Integer lineNumber;
 
-    /**
-     * 日志信息(message)
-     */
-    private String message;
+	/**
+	 * 日志信息(message)
+	 */
+	private String message;
 
-    /**
-     * 请求id
-     */
-    private String requestId;
+	/**
+	 * 请求id
+	 */
+	private String requestId;
 
-    /**
-     * 操作人
-     */
-    private String userName;
+	/**
+	 * 操作人
+	 */
+	private String userName;
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 }
 /*
     CREATE TABLE `log` (

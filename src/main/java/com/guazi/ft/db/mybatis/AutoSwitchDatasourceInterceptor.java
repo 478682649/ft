@@ -19,45 +19,45 @@ import java.util.Properties;
  * @author shichunyang
  */
 @Intercepts({
-        @Signature(
-                type = Executor.class,
-                method = "query",
-                args = {MappedStatement.class, Object.class, RowBounds.class, ResultHandler.class}
-        )
+		@Signature(
+				type = Executor.class,
+				method = "query",
+				args = {MappedStatement.class, Object.class, RowBounds.class, ResultHandler.class}
+		)
 })
 @Slf4j
 public class AutoSwitchDatasourceInterceptor implements Interceptor {
 
-    @Override
-    public Object intercept(Invocation invocation) throws Throwable {
-        MappedStatement mappedStatement = (MappedStatement) invocation.getArgs()[0];
-        Object parameter = invocation.getArgs()[1];
-        String sqlId = mappedStatement.getId();
-        BoundSql boundSql = mappedStatement.getBoundSql(parameter);
-        long start = System.currentTimeMillis();
+	@Override
+	public Object intercept(Invocation invocation) throws Throwable {
+		MappedStatement mappedStatement = (MappedStatement) invocation.getArgs()[0];
+		Object parameter = invocation.getArgs()[1];
+		String sqlId = mappedStatement.getId();
+		BoundSql boundSql = mappedStatement.getBoundSql(parameter);
+		long start = System.currentTimeMillis();
 
-        // 对主从的控制
-        String dataSourceKey = DataSourceHolder.getDataSourceKey();
-        if (dataSourceKey != null && dataSourceKey.equals(DataSource.master)) {
-        } else {
-            DataSourceHolder.setDataSourceKey(DataSource.slave);
-        }
+		// 对主从的控制
+		String dataSourceKey = DataSourceHolder.getDataSourceKey();
+		if (dataSourceKey != null && dataSourceKey.equals(DataSource.master)) {
+		} else {
+			DataSourceHolder.setDataSourceKey(DataSource.slave);
+		}
 
-        Object objectValue = invocation.proceed();
+		Object objectValue = invocation.proceed();
 
-        long end = System.currentTimeMillis();
+		long end = System.currentTimeMillis();
 
-        log.info("sql_id==>{}, sql==>{}, params==>{}, cost==>{}ms", sqlId, boundSql.getSql(), JsonUtil.object2Json(parameter), end - start);
-        return objectValue;
-    }
+		log.info("sql_id==>{}, sql==>{}, params==>{}, cost==>{}ms", sqlId, boundSql.getSql(), JsonUtil.object2Json(parameter), end - start);
+		return objectValue;
+	}
 
-    @Override
-    public Object plugin(Object o) {
-        // 将目标对象封装成代理对象
-        return Plugin.wrap(o, this);
-    }
+	@Override
+	public Object plugin(Object o) {
+		// 将目标对象封装成代理对象
+		return Plugin.wrap(o, this);
+	}
 
-    @Override
-    public void setProperties(Properties properties) {
-    }
+	@Override
+	public void setProperties(Properties properties) {
+	}
 }

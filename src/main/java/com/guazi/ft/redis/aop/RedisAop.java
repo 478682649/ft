@@ -23,53 +23,53 @@ import java.util.Arrays;
 @SuppressWarnings("unchecked")
 public class RedisAop {
 
-    @Autowired
-    private ValueOperationsCache valueOperationsCache;
+	@Autowired
+	private ValueOperationsCache valueOperationsCache;
 
-    @Around(value = "@annotation(com.guazi.ft.redis.annotation.RedisCache)")
-    public Object cache(ProceedingJoinPoint joinPoint) throws Throwable {
+	@Around(value = "@annotation(com.guazi.ft.redis.annotation.RedisCache)")
+	public Object cache(ProceedingJoinPoint joinPoint) throws Throwable {
 
-        Object result;
+		Object result;
 
-        // 得到被代理的方法
-        Method method = ((MethodSignature) joinPoint.getSignature()).getMethod();
+		// 得到被代理的方法
+		Method method = ((MethodSignature) joinPoint.getSignature()).getMethod();
 
-        if (method != null && method.isAnnotationPresent(RedisCache.class)) {
+		if (method != null && method.isAnnotationPresent(RedisCache.class)) {
 
-            // 得到被代理的方法上的注解
-            RedisCache annotation = method.getAnnotation(RedisCache.class);
-            String redisKey = annotation.key() + ":" + Arrays.toString(joinPoint.getArgs());
+			// 得到被代理的方法上的注解
+			RedisCache annotation = method.getAnnotation(RedisCache.class);
+			String redisKey = annotation.key() + ":" + Arrays.toString(joinPoint.getArgs());
 
-            long timeout = annotation.timeout();
+			long timeout = annotation.timeout();
 
-            String jsonValue = valueOperationsCache.get(redisKey);
+			String jsonValue = valueOperationsCache.get(redisKey);
 
-            // 得到被代理方法的返回值类型
-            Class returnType = ((MethodSignature) joinPoint.getSignature()).getReturnType();
+			// 得到被代理方法的返回值类型
+			Class returnType = ((MethodSignature) joinPoint.getSignature()).getReturnType();
 
-            if (jsonValue == null) {
+			if (jsonValue == null) {
 
-                // 缓存未命中
-                result = joinPoint.proceed(joinPoint.getArgs());
-                if (result == null) {
-                    return null;
-                }
+				// 缓存未命中
+				result = joinPoint.proceed(joinPoint.getArgs());
+				if (result == null) {
+					return null;
+				}
 
-                jsonValue = JsonUtil.object2Json(result);
+				jsonValue = JsonUtil.object2Json(result);
 
-                if (timeout > 0) {
-                    valueOperationsCache.setNX(redisKey, jsonValue, timeout);
-                } else {
-                    valueOperationsCache.setNX(redisKey, jsonValue);
-                }
-            } else {
-                // 缓存命中
-                result = JsonUtil.json2Object(jsonValue, returnType);
-            }
-        } else {
-            result = joinPoint.proceed(joinPoint.getArgs());
-        }
+				if (timeout > 0) {
+					valueOperationsCache.setNX(redisKey, jsonValue, timeout);
+				} else {
+					valueOperationsCache.setNX(redisKey, jsonValue);
+				}
+			} else {
+				// 缓存命中
+				result = JsonUtil.json2Object(jsonValue, returnType);
+			}
+		} else {
+			result = joinPoint.proceed(joinPoint.getArgs());
+		}
 
-        return result;
-    }
+		return result;
+	}
 }

@@ -11,19 +11,19 @@ import java.util.Date;
  */
 @Data
 public class UserDO {
-    private Long id;
-    private String username;
-    private String password;
-    private Date createdAt;
-    private Date updatedAt;
+	private Long id;
+	private String username;
+	private String password;
+	private Date createdAt;
+	private Date updatedAt;
 
-    public void init() {
-        System.out.println(this.username + ", bean init");
-    }
+	public void init() {
+		System.out.println(this.username + ", bean init");
+	}
 
-    public void destroy() {
-        System.out.println(this.username + ", bean destroy");
-    }
+	public void destroy() {
+		System.out.println(this.username + ", bean destroy");
+	}
 }
 /*
     CREATE TABLE `user` (

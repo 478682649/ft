@@ -7,34 +7,34 @@ package com.guazi.ft.basic;
  */
 public class Body {
 
-    private int age = 30;
+	private int age = 30;
 
-    private class Heart {
+	private class Heart {
 
-        private int age = 60;
+		private int age = 60;
 
-        private void heartFunction() {
-            System.out.println("外部类成员变量==>" + Body.this.age);
-            System.out.println("内部类成员变量" + Heart.this.age);
-        }
+		private void heartFunction() {
+			System.out.println("外部类成员变量==>" + Body.this.age);
+			System.out.println("内部类成员变量" + Heart.this.age);
+		}
 
-    }
+	}
 
-    public void bodyFunction() {
-        Heart heart = new Heart();
-        heart.heartFunction();
+	public void bodyFunction() {
+		Heart heart = new Heart();
+		heart.heartFunction();
 
-        System.out.println("---");
+		System.out.println("---");
 
-        System.out.println("内部类私有变量==>" + heart.age);
-    }
+		System.out.println("内部类私有变量==>" + heart.age);
+	}
 
-    /**
-     * 静态内部类
-     */
-    public static class InnerClass {
-        public static void show2() {
-            System.out.println("InnerClass static method");
-        }
-    }
+	/**
+	 * 静态内部类
+	 */
+	public static class InnerClass {
+		public static void show2() {
+			System.out.println("InnerClass static method");
+		}
+	}
 }

@@ -12,14 +12,14 @@ import java.io.Serializable;
 @Data
 public class CategoryDO implements Serializable {
 
-    /**
-     * 分类主键
-     */
-    private Short id;
-    /**
-     * 分类名称
-     */
-    private String name;
+	/**
+	 * 分类主键
+	 */
+	private Short id;
+	/**
+	 * 分类名称
+	 */
+	private String name;
 }
 /*
     CREATE TABLE `category` (

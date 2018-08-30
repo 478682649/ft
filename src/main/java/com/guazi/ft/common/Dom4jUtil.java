@@ -15,35 +15,35 @@ import java.io.*;
  */
 public class Dom4jUtil {
 
-    public static Document getDocument(InputStream in) {
-        SAXReader saxReader = new SAXReader();
+	public static Document getDocument(InputStream in) {
+		SAXReader saxReader = new SAXReader();
 
-        try {
-            return saxReader.read(in);
-        } catch (DocumentException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
+		try {
+			return saxReader.read(in);
+		} catch (DocumentException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
 
-    public static void xmlWrite(OutputStream out, Document document) {
-        OutputFormat format = OutputFormat.createPrettyPrint();
+	public static void xmlWrite(OutputStream out, Document document) {
+		OutputFormat format = OutputFormat.createPrettyPrint();
 
-        XMLWriter writer = null;
+		XMLWriter writer = null;
 
-        try {
-            writer = new XMLWriter(new OutputStreamWriter(out, "UTF-8"), format);
-            writer.write(document);
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            if (writer != null) {
-                try {
-                    writer.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
+		try {
+			writer = new XMLWriter(new OutputStreamWriter(out, "UTF-8"), format);
+			writer.write(document);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (writer != null) {
+				try {
+					writer.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
 }

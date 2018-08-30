@@ -15,14 +15,14 @@ import lombok.Data;
 @Data
 public class UserPO {
 
-    @ApiModelProperty(name = "id", value = "用户id", required = true, dataType = Swagger2.DATA_TYPE_INT, example = "0")
-    private Integer id;
+	@ApiModelProperty(name = "id", value = "用户id", required = true, dataType = Swagger2.DATA_TYPE_INT, example = "0")
+	private Integer id;
 
-    @ApiModelProperty(name = "name", value = "姓名", required = true, dataType = Swagger2.DATA_TYPE_STRING, example = "春阳")
-    private String name;
+	@ApiModelProperty(name = "name", value = "姓名", required = true, dataType = Swagger2.DATA_TYPE_STRING, example = "春阳")
+	private String name;
 
-    private Integer age;
+	private Integer age;
 
-    @JsonProperty("crt_time")
-    private String crtTime;
+	@JsonProperty("crt_time")
+	private String crtTime;
 }

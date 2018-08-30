@@ -9,8 +9,8 @@ import org.springframework.kafka.annotation.KafkaListener;
  * @author shichunyang
  */
 public class ConsignListener {
-    @KafkaListener(topics = {"${kafka.consign.topic}"}, containerFactory = "consignConcurrentKafkaListenerContainerFactory", groupId = "${kafka.consign.groupId}")
-    public void listen(ConsumerRecord<String, String> record) {
-        System.out.println("kafka key==>" + record.key() + ", value==>" + record.value());
-    }
+	@KafkaListener(topics = {"${kafka.consign.topic}"}, containerFactory = "consignConcurrentKafkaListenerContainerFactory", groupId = "${kafka.consign.groupId}")
+	public void listen(ConsumerRecord<String, String> record) {
+		System.out.println("kafka key==>" + record.key() + ", value==>" + record.value());
+	}
 }

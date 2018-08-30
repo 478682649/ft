@@ -17,50 +17,50 @@ import java.sql.SQLException;
 @Data
 public class TxQueryRunner extends QueryRunner {
 
-    private TxDataSourcePool txDataSourcePool;
+	private TxDataSourcePool txDataSourcePool;
 
-    /**
-     * 批处理
-     */
-    public int[] txBatch(String sql, Object[][] params) throws SQLException {
+	/**
+	 * 批处理
+	 */
+	public int[] txBatch(String sql, Object[][] params) throws SQLException {
 
-        Connection connection = txDataSourcePool.getConnection();
+		Connection connection = txDataSourcePool.getConnection();
 
-        int[] resultArr = super.batch(connection, sql, params);
+		int[] resultArr = super.batch(connection, sql, params);
 
-        // 释放非事务连接
-        txDataSourcePool.releaseConnection(connection);
+		// 释放非事务连接
+		txDataSourcePool.releaseConnection(connection);
 
-        return resultArr;
-    }
+		return resultArr;
+	}
 
-    /**
-     * 查询
-     */
-    public <T> T txQuery(String sql, ResultSetHandler<T> resultSetHandler, Object... params) throws SQLException {
+	/**
+	 * 查询
+	 */
+	public <T> T txQuery(String sql, ResultSetHandler<T> resultSetHandler, Object... params) throws SQLException {
 
-        Connection connection = txDataSourcePool.getConnection();
+		Connection connection = txDataSourcePool.getConnection();
 
-        T result = super.query(connection, sql, resultSetHandler, params);
+		T result = super.query(connection, sql, resultSetHandler, params);
 
-        // 释放非事务连接
-        txDataSourcePool.releaseConnection(connection);
+		// 释放非事务连接
+		txDataSourcePool.releaseConnection(connection);
 
-        return result;
-    }
+		return result;
+	}
 
-    /**
-     * 增删改
-     */
-    public int txUpdate(String sql, Object... params) throws SQLException {
+	/**
+	 * 增删改
+	 */
+	public int txUpdate(String sql, Object... params) throws SQLException {
 
-        Connection connection = txDataSourcePool.getConnection();
+		Connection connection = txDataSourcePool.getConnection();
 
-        int result = super.update(connection, sql, params);
+		int result = super.update(connection, sql, params);
 
-        // 释放非事务连接
-        txDataSourcePool.releaseConnection(connection);
+		// 释放非事务连接
+		txDataSourcePool.releaseConnection(connection);
 
-        return result;
-    }
+		return result;
+	}
 }

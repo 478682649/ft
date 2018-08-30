@@ -13,15 +13,15 @@ import lombok.EqualsAndHashCode;
 @Data
 public class OrderDTO extends OrderDO {
 
-    /**
-     * 开始日期
-     */
-    private String startDate;
-    /**
-     * 结束日期
-     */
-    private String endDate;
+	/**
+	 * 开始日期
+	 */
+	private String startDate;
+	/**
+	 * 结束日期
+	 */
+	private String endDate;
 
-    private Integer startRow;
-    private Integer pageSize;
+	private Integer startRow;
+	private Integer pageSize;
 }

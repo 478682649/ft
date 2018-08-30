@@ -12,8 +12,8 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 @Data
 public class ItemVO extends ItemDO {
-    /**
-     * 商品名称
-     */
-    private String goodsName;
+	/**
+	 * 商品名称
+	 */
+	private String goodsName;
 }

@@ -13,15 +13,15 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 public @interface DataSource {
-    /**
-     * 可读写数据库
-     */
-    String master = DruidDataSourceUtil.MASTER;
+	/**
+	 * 可读写数据库
+	 */
+	String master = DruidDataSourceUtil.MASTER;
 
-    /**
-     * 只读数据库
-     */
-    String slave = "slave";
+	/**
+	 * 只读数据库
+	 */
+	String slave = "slave";
 
-    String value() default master;
+	String value() default master;
 }

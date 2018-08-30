@@ -9,5 +9,5 @@ import lombok.Data;
  */
 @Data
 public class PropertiesConstants {
-    private String constant;
+	private String constant;
 }

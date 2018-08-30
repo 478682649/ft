@@ -6,5 +6,5 @@ import java.lang.annotation.*;
 @Target({ElementType.TYPE, ElementType.METHOD})
 @Documented
 public @interface ConfigParams {
-    ConfigParam[] value();
+	ConfigParam[] value();
 }

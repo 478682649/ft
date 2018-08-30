@@ -14,25 +14,25 @@ import org.springframework.kafka.core.KafkaTemplate;
 //@EnableKafka
 public class ConsignKafkaConfig {
 
-    @Value("${kafka.servers}")
-    private String servers;
-    @Value("${kafka.consign.topic}")
-    private String topic;
-    @Value("${kafka.consign.groupId}")
-    private String groupId;
+	@Value("${kafka.servers}")
+	private String servers;
+	@Value("${kafka.consign.topic}")
+	private String topic;
+	@Value("${kafka.consign.groupId}")
+	private String groupId;
 
-    @Bean("consignKafkaTemplate")
-    public KafkaTemplate<String, String> kafkaTemplate() {
-        return KafkaUtil.getKafkaTemplate(KafkaUtil.producerConfig(servers));
-    }
+	@Bean("consignKafkaTemplate")
+	public KafkaTemplate<String, String> kafkaTemplate() {
+		return KafkaUtil.getKafkaTemplate(KafkaUtil.producerConfig(servers));
+	}
 
-    @Bean("consignConcurrentKafkaListenerContainerFactory")
-    public ConcurrentKafkaListenerContainerFactory<String, String> concurrentKafkaListenerContainerFactory() {
-        return KafkaUtil.getConcurrentKafkaListenerContainerFactory(KafkaUtil.consumerConfig(servers, groupId));
-    }
+	@Bean("consignConcurrentKafkaListenerContainerFactory")
+	public ConcurrentKafkaListenerContainerFactory<String, String> concurrentKafkaListenerContainerFactory() {
+		return KafkaUtil.getConcurrentKafkaListenerContainerFactory(KafkaUtil.consumerConfig(servers, groupId));
+	}
 
-    @Bean("consignListener")
-    public ConsignListener consignListener() {
-        return new ConsignListener();
-    }
+	@Bean("consignListener")
+	public ConsignListener consignListener() {
+		return new ConsignListener();
+	}
 }

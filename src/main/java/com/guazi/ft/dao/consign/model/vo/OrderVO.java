@@ -13,18 +13,18 @@ import lombok.EqualsAndHashCode;
 @Data
 public class OrderVO extends OrderDO {
 
-    /**
-     * 订单操作人
-     */
-    private String username;
+	/**
+	 * 订单操作人
+	 */
+	private String username;
 
-    /**
-     * 订单状态中文
-     */
-    private String statusCH;
+	/**
+	 * 订单状态中文
+	 */
+	private String statusCH;
 
-    /**
-     * 订单操作人姓名
-     */
-    private String operatorName;
+	/**
+	 * 订单操作人姓名
+	 */
+	private String operatorName;
 }

@@ -17,19 +17,19 @@ import java.util.List;
  */
 @Slf4j
 public class MyBatisGenerator {
-    public static void main(String[] args) throws Exception {
-        List<String> warnings = new ArrayList<>();
+	public static void main(String[] args) throws Exception {
+		List<String> warnings = new ArrayList<>();
 
-        File inputFile = new File(MyBatisGenerator.class.getResource("/mybatis/generatorConfig.xml").toURI());
+		File inputFile = new File(MyBatisGenerator.class.getResource("/mybatis/generatorConfig.xml").toURI());
 
-        ConfigurationParser configurationParser = new ConfigurationParser(warnings);
+		ConfigurationParser configurationParser = new ConfigurationParser(warnings);
 
-        Configuration configuration = configurationParser.parseConfiguration(inputFile);
+		Configuration configuration = configurationParser.parseConfiguration(inputFile);
 
-        DefaultShellCallback defaultShellCallback = new DefaultShellCallback(true);
+		DefaultShellCallback defaultShellCallback = new DefaultShellCallback(true);
 
-        org.mybatis.generator.api.MyBatisGenerator myBatisGenerator = new org.mybatis.generator.api.MyBatisGenerator(configuration, defaultShellCallback, warnings);
-        myBatisGenerator.generate(null);
-        log.info(JsonUtil.object2Json(warnings));
-    }
+		org.mybatis.generator.api.MyBatisGenerator myBatisGenerator = new org.mybatis.generator.api.MyBatisGenerator(configuration, defaultShellCallback, warnings);
+		myBatisGenerator.generate(null);
+		log.info(JsonUtil.object2Json(warnings));
+	}
 }

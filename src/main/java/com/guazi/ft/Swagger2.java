@@ -28,50 +28,50 @@ import java.util.List;
 @EnableSwagger2
 public class Swagger2 {
 
-    public static final String MESSAGE_SUCCESS = "请求成功";
-    public static final String MESSAGE_ERROR = "请求异常";
+	public static final String MESSAGE_SUCCESS = "请求成功";
+	public static final String MESSAGE_ERROR = "请求异常";
 
-    public static final String PARAM_TYPE_PATH = "path";
-    public static final String PARAM_TYPE_QUERY = "query";
-    public static final String PARAM_TYPE_FORM = "form";
-    public static final String PARAM_TYPE_BODY = "body";
-    public static final String PARAM_TYPE_HEADER = "header";
+	public static final String PARAM_TYPE_PATH = "path";
+	public static final String PARAM_TYPE_QUERY = "query";
+	public static final String PARAM_TYPE_FORM = "form";
+	public static final String PARAM_TYPE_BODY = "body";
+	public static final String PARAM_TYPE_HEADER = "header";
 
-    public static final String DATA_TYPE_INT = "int";
-    public static final String DATA_TYPE_STRING = "String";
+	public static final String DATA_TYPE_INT = "int";
+	public static final String DATA_TYPE_STRING = "String";
 
-    @Bean
-    public Docket createRestApi() {
+	@Bean
+	public Docket createRestApi() {
 
-        // 添加token header
-        ParameterBuilder parameterBuilder = new ParameterBuilder();
-        parameterBuilder.name(LoginConstant.PARAM_LOGIN_TOKEN).description("登陆token").modelRef(new ModelRef(DATA_TYPE_STRING)).parameterType(PARAM_TYPE_HEADER).required(false).build();
+		// 添加token header
+		ParameterBuilder parameterBuilder = new ParameterBuilder();
+		parameterBuilder.name(LoginConstant.PARAM_LOGIN_TOKEN).description("登陆token").modelRef(new ModelRef(DATA_TYPE_STRING)).parameterType(PARAM_TYPE_HEADER).required(false).build();
 
-        List<Parameter> parameters = new ArrayList<>();
-        parameters.add(parameterBuilder.build());
+		List<Parameter> parameters = new ArrayList<>();
+		parameters.add(parameterBuilder.build());
 
-        return new Docket(DocumentationType.SWAGGER_2)
-                .groupName("wx")
-                .useDefaultResponseMessages(false)
-                .genericModelSubstitutes(ResponseEntity.class)
-                .forCodeGeneration(true)
-                // 项目名称
-                .pathMapping("/")
-                .apiInfo(apiInfo())
-                .select()
-                .apis(RequestHandlerSelectors.basePackage("com.guazi.ft"))
-                .paths(PathSelectors.regex("/api.*"))
-                .build()
-                .globalOperationParameters(parameters);
-    }
+		return new Docket(DocumentationType.SWAGGER_2)
+				.groupName("wx")
+				.useDefaultResponseMessages(false)
+				.genericModelSubstitutes(ResponseEntity.class)
+				.forCodeGeneration(true)
+				// 项目名称
+				.pathMapping("/")
+				.apiInfo(apiInfo())
+				.select()
+				.apis(RequestHandlerSelectors.basePackage("com.guazi.ft"))
+				.paths(PathSelectors.regex("/api.*"))
+				.build()
+				.globalOperationParameters(parameters);
+	}
 
-    private ApiInfo apiInfo() {
-        return new ApiInfoBuilder()
-                .title("温馨家具API")
-                .description("前后端分离参考文档")
-                .termsOfServiceUrl("http://www.baidu.com")
-                .contact(new Contact("史春阳", "http://www.google.com", "903031015@qq.com"))
-                .version("V1.0")
-                .build();
-    }
+	private ApiInfo apiInfo() {
+		return new ApiInfoBuilder()
+				.title("温馨家具API")
+				.description("前后端分离参考文档")
+				.termsOfServiceUrl("http://www.baidu.com")
+				.contact(new Contact("史春阳", "http://www.google.com", "903031015@qq.com"))
+				.version("V1.0")
+				.build();
+	}
 }
