@@ -75,14 +75,12 @@ public class CommonUtil {
      * @return 编码后的字符串
      */
     public static String encode(String str) {
-
         try {
             return URLEncoder.encode(str, "utf-8");
         } catch (Exception e) {
             e.printStackTrace();
+            return null;
         }
-
-        return null;
     }
 
     /**
@@ -92,14 +90,12 @@ public class CommonUtil {
      * @return 解码后的字符串
      */
     public static String decode(String str) {
-
         try {
             return URLDecoder.decode(str, "utf-8");
         } catch (Exception e) {
             e.printStackTrace();
+            return null;
         }
-
-        return null;
     }
 
     /**
@@ -119,15 +115,12 @@ public class CommonUtil {
      * @return 编码后的字符串
      */
     public static String base64Encode(String str) {
-
         String result = null;
-
         try {
             result = Base64.encodeBase64String(str.getBytes("utf-8"));
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
-
         return result;
     }
 
@@ -138,15 +131,12 @@ public class CommonUtil {
      * @return 解码后的字符串
      */
     public static String base64Decode(String str) {
-
         String result = null;
-
         try {
             result = new String(Base64.decodeBase64(str), "utf-8");
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
-
         return result;
     }
 
@@ -158,19 +148,15 @@ public class CommonUtil {
      * @param number 返回个数
      */
     public static List<Integer> randomList(int min, int max, int number) {
-
-        // 定义返回结果
         List<Integer> numberList = new ArrayList<>();
 
         if (number > (max - min + 1) || max < min) {
-
             return numberList;
         }
 
         int count = 1;
 
         while (count <= number) {
-
             int num = (int) (Math.random() * (max - min + 1)) + min;
 
             if (!numberList.contains(num)) {
@@ -188,15 +174,12 @@ public class CommonUtil {
      * @return 返回日期随机数
      */
     public synchronized static String getOrderNumber() {
-
         String currentDate = new SimpleDateFormat("yyyyMMddHHmmssSSS").format(new Date());
-
         try {
             Thread.sleep(1);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
         return currentDate;
     }
 
@@ -207,7 +190,6 @@ public class CommonUtil {
      * @return Properties对象
      */
     public static Properties getProperties(String file) {
-
         Properties properties = new Properties();
 
         InputStream in = null;
@@ -250,23 +232,18 @@ public class CommonUtil {
      * @return javaBean
      */
     @SuppressWarnings("unchecked")
-    public static <T> T map2Bean(Map<String, ? extends Object> map, Class<T> clazz, String datePattern) {
-
+    public static <T> T map2Bean(Map<String, ?> map, Class<T> clazz, String datePattern) {
         try {
-
             T bean = clazz.getConstructor().newInstance();
 
             ConvertUtils.register(new Converter() {
-
                 @Override
                 public Date convert(Class type, Object value) {
-
                     if (value == null) {
                         return null;
                     }
 
                     if (value instanceof String && !StringUtil.isNull((String) value)) {
-
                         SimpleDateFormat sdf = new SimpleDateFormat(datePattern);
                         try {
                             return sdf.parse((String) value);
@@ -364,7 +341,7 @@ public class CommonUtil {
                 }
             }
 
-            //删完文件夹中内容后 将文件夹删掉。
+            // 删完文件夹中内容后 将文件夹删掉
             boolean flag = srcFolder.delete();
 
             System.out.println("删除外层文件夹==>" + srcFolder.getName() + ", result==>" + flag);
