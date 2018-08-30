@@ -11,7 +11,6 @@ import java.io.Serializable;
  */
 @Data
 public class Page implements Serializable {
-
     private static final long serialVersionUID = 1315898743498415987L;
 
     /**

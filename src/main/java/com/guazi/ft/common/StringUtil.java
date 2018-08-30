@@ -73,11 +73,9 @@ public class StringUtil {
      * @return 目标字符串
      */
     public static String append(String split, String... strArr) {
-
         StringBuilder sb = new StringBuilder();
 
         for (String s : strArr) {
-
             sb.append(s).append(split);
         }
 
@@ -92,7 +90,6 @@ public class StringUtil {
             String oldStr,
             String replaceStr
     ) {
-
         StringBuilder sb = new StringBuilder(input.length());
 
         int startIndex = 0;
@@ -100,7 +97,6 @@ public class StringUtil {
         int index;
 
         while ((index = input.indexOf(oldStr, startIndex)) != -1) {
-
             sb.append(input.substring(startIndex, index)).append(replaceStr);
 
             startIndex = index + oldStr.length();
@@ -116,7 +112,6 @@ public class StringUtil {
      * @return 对象长度
      */
     public static int length(Object obj) {
-
         if (obj == null) {
             return 0;
         }
@@ -144,7 +139,6 @@ public class StringUtil {
         }
 
         if (obj instanceof Enumeration) {
-
             Enumeration enumeration = (Enumeration) obj;
 
             int count = 0;
@@ -164,7 +158,6 @@ public class StringUtil {
      * 转义输入的内容
      */
     private static String escFilter(String message) {
-
         if (StringUtil.isNull(message)) {
             return null;
         }
@@ -173,7 +166,6 @@ public class StringUtil {
 
         StringBuilder result = new StringBuilder();
         for (char ch : contentArr) {
-
             switch (ch) {
 
                 case '<':
