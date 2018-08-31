@@ -40,6 +40,9 @@ public class LoginUtil {
 			throw new FtException(RestResult.ERROR_SIGN_CODE, "签名错误");
 		}
 
+		boolean flag = valueOperationsCache.expire(redisTokenKey, 3600_000L);
+		log.info("用户token续时==>{}", flag);
+
 		return JsonUtil.json2Object(userJson, UserDO.class);
 	}
 
