@@ -1,7 +1,7 @@
 package com.guazi.ft.constant;
 
+import com.google.common.collect.ImmutableMap;
 import com.guazi.ft.common.JsonUtil;
-import org.apache.curator.shaded.com.google.common.collect.ImmutableMap;
 
 import java.util.stream.Stream;
 

@@ -1,7 +1,6 @@
 package com.guazi.ft.aop;
 
 import com.guazi.ft.aop.login.LoginAop;
-import com.guazi.ft.config.dubbo.DubboAop;
 import com.guazi.ft.db.aop.DataSourceAspect;
 import com.guazi.ft.redis.aop.RedisAop;
 import lombok.extern.slf4j.Slf4j;
@@ -46,16 +45,6 @@ public class PluginConfiguration {
 	public RedisAop redisAop() {
 		log.info("插件初始化==>RedisAop");
 		return new RedisAop();
-	}
-
-	/**
-	 * dubbo插件
-	 */
-	@Bean
-	@ConditionalOnMissingBean(DubboAop.class)
-	public DubboAop dubboAop() {
-		log.info("插件初始化==>DubboAop");
-		return new DubboAop();
 	}
 
 	/**
