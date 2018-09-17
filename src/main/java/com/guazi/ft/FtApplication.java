@@ -5,6 +5,7 @@ import com.guazi.ft.common.*;
 import com.guazi.ft.config.profile.ProFile;
 import com.guazi.ft.constant.PropertiesConstants;
 import com.guazi.ft.exception.FtException;
+import com.guazi.ft.service.GoodsService;
 import com.netflix.hystrix.strategy.HystrixPlugins;
 import com.netflix.loadbalancer.IRule;
 import com.netflix.loadbalancer.RoundRobinRule;
@@ -78,10 +79,18 @@ public class FtApplication {
 		this.proFile = proFile;
 	}
 
+	@Autowired
+	private GoodsService goodsService;
+
 	@GetMapping("/")
 	public String helloWorld() {
 		log.info(proFile.proFile());
 		return "<h1>Hello World!, 环境==>" + propertiesConstants.getConstant() + "</h1>";
+	}
+
+	@GetMapping("/db")
+	public String db() {
+		return JsonUtil.object2Json(goodsService.get(1L));
 	}
 
 	//@Autowired

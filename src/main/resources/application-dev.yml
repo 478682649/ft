@@ -15,14 +15,14 @@ druid:
       initialSize: 10
       maxActive: 20
     slave1:
-      url: jdbc:mysql://localhost:3306/consign
+      url: jdbc:mysql://localhost:3306/consign_slave1
       username: root
       password:
       minIdle: 10
       initialSize: 10
       maxActive: 20
     slave2:
-      url: jdbc:mysql://localhost:3306/consign
+      url: jdbc:mysql://localhost:3306/consign_slave2
       username: root
       password:
       minIdle: 10

@@ -1,5 +1,6 @@
 package com.guazi.ft.db;
 
+import com.alibaba.druid.pool.DruidDataSource;
 import com.guazi.ft.db.annotation.DataSource;
 import com.guazi.ft.db.aop.DataSourceHolder;
 import lombok.Data;
@@ -55,6 +56,16 @@ public class DynamicDataSource extends AbstractRoutingDataSource {
 	@Override
 	public void afterPropertiesSet() {
 		super.afterPropertiesSet();
+	}
+
+	@Override
+	public javax.sql.DataSource determineTargetDataSource() {
+		javax.sql.DataSource dataSource = super.determineTargetDataSource();
+		if (dataSource instanceof DruidDataSource) {
+			DruidDataSource druidDataSource = (DruidDataSource) dataSource;
+			log.info("database url==>{}, username==>{}", druidDataSource.getUrl(), druidDataSource.getUsername());
+		}
+		return dataSource;
 	}
 
 	/**
