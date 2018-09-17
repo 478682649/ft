@@ -2,6 +2,7 @@ package com.guazi.ft.db.mybatis;
 
 import org.apache.ibatis.session.AutoMappingBehavior;
 import org.apache.ibatis.session.ExecutorType;
+import org.apache.ibatis.session.LocalCacheScope;
 import org.apache.ibatis.session.SqlSessionFactory;
 
 /**
@@ -33,5 +34,7 @@ public class MybatisUtil {
 		sqlSessionFactory.getConfiguration().setDefaultExecutorType(ExecutorType.SIMPLE);
 		// 超时时间
 		sqlSessionFactory.getConfiguration().setDefaultStatementTimeout(36000);
+		// 关闭一级缓存
+		sqlSessionFactory.getConfiguration().setLocalCacheScope(LocalCacheScope.STATEMENT);
 	}
 }
