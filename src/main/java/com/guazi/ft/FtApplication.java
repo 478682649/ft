@@ -11,7 +11,6 @@ import com.netflix.loadbalancer.IRule;
 import com.netflix.loadbalancer.RoundRobinRule;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.SpringApplication;
@@ -120,19 +119,6 @@ public class FtApplication {
 		}
 
 		throw new FtException(500, "重试机制测试");
-	}
-
-	//@Autowired
-	//@Qualifier("ftRabbitTemplate")
-	private RabbitTemplate rabbitTemplate;
-
-	@GetMapping("/rabbit")
-	public String rabbit() {
-		Map<String, Object> map = new HashMap<>(16);
-		map.put("username", "春阳");
-		map.put("password", "success");
-		rabbitTemplate.convertAndSend("ft.direct.exchange", "q1", map);
-		return "success";
 	}
 
 	//@Autowired
