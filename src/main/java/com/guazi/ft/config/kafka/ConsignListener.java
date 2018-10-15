@@ -17,7 +17,7 @@ public class ConsignListener {
 	@KafkaListener(topics = {"${kafka.consign.topic}"}, containerFactory = "consignConcurrentKafkaListenerContainerFactory", groupId = "${kafka.consign.groupId}")
 	public void listen(ConsumerRecord<String, String> record) {
 		MDC.put(ControllerAspect.REQUEST_ID, CommonUtil.get32UUID());
-		log.info("kafka key==>{}, value==>{}", record.key(), record.value());
+		log.info("kafka consumer start");
 		log.info("kafka key==>{}, value==>{}", record.key(), record.value());
 		log.info("kafka consumer finish");
 	}

@@ -101,7 +101,7 @@ public class FtApplication {
 
 	@GetMapping("/kafka")
 	public String kafka() {
-		String key = DateUtil.getCurrentDateStr();
+		String key = System.currentTimeMillis() + "";
 		String value = "最新工单id" + "_" + CommonUtil.getOrderNumber();
 		kafkaTemplate.send(topic, key, value);
 		return "success";
