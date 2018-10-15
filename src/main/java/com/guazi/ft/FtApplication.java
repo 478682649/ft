@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
@@ -92,15 +93,14 @@ public class FtApplication {
 		return JsonUtil.object2Json(goodsService.get(1L));
 	}
 
-	//@Autowired
+	@Autowired
 	@Qualifier("consignKafkaTemplate")
 	private KafkaTemplate<String, String> kafkaTemplate;
-	//@Value("${kafka.consign.topic}")
+	@Value("${kafka.consign.topic}")
 	private String topic;
 
-	//@GetMapping("/kafka")
+	@GetMapping("/kafka")
 	public String kafka() {
-
 		String key = DateUtil.getCurrentDateStr();
 		String value = "最新工单id" + "_" + CommonUtil.getOrderNumber();
 		kafkaTemplate.send(topic, key, value);
